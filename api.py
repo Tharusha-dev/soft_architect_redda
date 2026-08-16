@@ -30,7 +30,6 @@ s4 = student_creator.registerUser(UserDetails("20261014", "Linda Chen", "linda@n
 f1 = faculty_creator.registerUser(UserDetails("F105", "Prof. Johnson", "johnson@nexus.edu"))
 
 # 2. Initialize Courses
-# Mapping JS course ids to strings
 courses_data = [
     Course("1", "SCS2301", "Data Structures and Algorithms", "Dr. Smith", 50, "Mon/Wed 10:00 AM - 12:00 PM"),
     Course("2", "SCS2303", "Software Architecture", "Prof. Johnson", 40, "Tue/Thu 1:00 PM - 3:00 PM"),
@@ -38,7 +37,7 @@ courses_data = [
     Course("4", "SCS3201", "Machine Learning", "Dr. Adams", 30, "Mon/Wed 2:00 PM - 4:00 PM"),
     Course("5", "SCS1101", "Introduction to Programming", "Prof. Davis", 100, "Mon/Wed 8:00 AM - 10:00 AM")
 ]
-courses_data[0].prerequisites = [5] # Using int to match frontend expectations
+courses_data[0].prerequisites = [5]
 courses_data[1].prerequisites = ["SCS2101"] 
 courses_data[3].prerequisites = [1]
 
@@ -67,13 +66,15 @@ for cid, offering in offerings.items():
     es = EnrollmentService(event_publisher, offering, repository, schedule)
     facades[cid] = es.get_facade()
 
+admin_service = AdminService()
+faculty_service = FacultyService()
+
 class APIStudentService:
     def enroll_in_course(self, student_id: str, course_id: str):
         facade = facades.get(str(course_id))
         if not facade:
             return EnrollmentResult.FAILURE
         
-        # Manually enforcing prerequisite and capacity checks for the API layer mapping
         course = next((c for c in courses_data if c.course_id == course_id), None)
         student = next((s for s in [s1, s2, s3, s4] if s.id == student_id), None)
         
@@ -128,27 +129,80 @@ def get_state():
         },
         "students": [
             {"id": s.id, "name": s.name, "grade": ""} for s in [s1, s2, s3, s4]
-        ]
+        ],
+        "admin": {
+            "pending_requests": [
+                {"id": req.request_id, "course_id": req.course_id} 
+                for req in admin_service.pending_course_requests
+            ]
+        }
     })
 
 @app.route('/api/enroll', methods=['POST'])
 def enroll():
     data = request.json
-    student_id = str(data.get('student_id'))
-    course_id = str(data.get('course_id'))
-    
-    result = api_student_service.enroll_in_course(student_id, course_id)
+    result = api_student_service.enroll_in_course(str(data.get('student_id')), str(data.get('course_id')))
     if result == EnrollmentResult.SUCCESS:
-        return jsonify({"status": "success", "message": f"Successfully enrolled in course {course_id}"})
+        return jsonify({"status": "success", "message": f"Successfully enrolled in course {data.get('course_id')}"})
     return jsonify({"status": "error", "message": "Enrollment failed due to missing prerequisites or course is full."}), 400
 
 @app.route('/api/drop', methods=['POST'])
 def drop():
     data = request.json
-    student_id = str(data.get('student_id'))
+    api_student_service.drop_course(str(data.get('student_id')), str(data.get('course_id')))
+    return jsonify({"status": "success", "message": f"Successfully dropped course {data.get('course_id')}"})
+
+@app.route('/api/faculty/grades/submit', methods=['POST'])
+def submit_grades():
+    data = request.json
     course_id = str(data.get('course_id'))
-    api_student_service.drop_course(student_id, course_id)
-    return jsonify({"status": "success", "message": f"Successfully dropped course {course_id}"})
+    faculty_id = str(data.get('faculty_id'))
+    
+    grade_sub = faculty_service.create_grade_submission(course_id, faculty_id)
+    grade_sub.edit()
+    grade_sub.submit() # transitions to pending
+    return jsonify({"status": "success", "message": "Grades submitted to Admin (State Pattern: Pending)."})
+
+@app.route('/api/faculty/change-capacity', methods=['POST'])
+def change_capacity():
+    data = request.json
+    course_id = str(data.get('course_id'))
+    faculty_id = str(data.get('faculty_id'))
+    new_capacity = int(data.get('capacity', 0))
+    
+    course = next((c for c in courses_data if c.course_id == course_id), None)
+    if not course: return jsonify({"error": "Course not found"}), 404
+    
+    change_cmd = ChangeCapacityCommand(course, new_capacity)
+    import uuid
+    req_id = str(uuid.uuid4())[:8]
+    req = CourseChangeRequest(req_id, course_id, faculty_id, change_cmd)
+    
+    faculty_service.submit_course_change_request(req, admin_service)
+    return jsonify({"status": "success", "message": f"Command Pattern: Change request {req_id} sent to Admin."})
+
+@app.route('/api/admin/approve-request', methods=['POST'])
+def approve_request():
+    req_id = request.json.get('request_id')
+    admin_service.approve_course_change_request(req_id)
+    # Also update the CourseOffering object so the API reflects the change
+    for course in courses_data:
+        if course.course_id in offerings:
+            offerings[course.course_id].capacity = course.capacity
+    return jsonify({"status": "success", "message": f"Command Pattern: Request {req_id} executed and approved."})
+
+@app.route('/api/admin/reports', methods=['GET'])
+def get_reports():
+    from patterns.template_method import EnrollmentStatisticsReport, FacultyWorkloadReport, CoursePopularityReport
+    stats = EnrollmentStatisticsReport().generateReport().content
+    workload = FacultyWorkloadReport().generateReport().content
+    popularity = CoursePopularityReport().generateReport().content
+    
+    return jsonify({
+        "stats": stats,
+        "workload": workload,
+        "popularity": popularity
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

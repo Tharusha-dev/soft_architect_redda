@@ -366,7 +366,7 @@ function renderFacultyClasses() {
                 
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-primary" style="flex:1;" onclick="currentView='roster'; renderNav(); renderView();">View Roster</button>
-                    <button class="btn btn-outline" style="flex:1;">Edit Details</button>
+                    <button class="btn btn-outline" style="flex:1;" onclick="requestCapacityChange('${course.id}')">Request Capacity Change</button>
                 </div>
             </div>
         `;
@@ -455,11 +455,33 @@ function renderFacultyGrading() {
 }
 
 function submitGrades() {
-    showToast('Validating grades...', 'warning');
-    setTimeout(() => {
-        showToast('Grades successfully submitted for approval.', 'success');
+    showToast('Validating grades via State Pattern...', 'warning');
+    
+    fetch('http://localhost:5000/api/faculty/grades/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ course_id: 2, faculty_id: db.faculty.id, grades: [] })
+    }).then(res => res.json()).then(data => {
+        showToast(data.message, 'success');
         triggerNotification();
-    }, 1000);
+    });
+}
+
+async function requestCapacityChange(courseId) {
+    const newCap = prompt("Enter new capacity for this course:");
+    if (!newCap || isNaN(newCap)) return;
+    
+    showToast('Sending Course Change Request Command...', 'warning');
+    
+    const res = await fetch('http://localhost:5000/api/faculty/change-capacity', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ course_id: courseId, faculty_id: db.faculty.id, capacity: newCap })
+    });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    await fetchState();
+    renderView();
 }
 
 // --- ADMIN VIEWS ---
@@ -468,6 +490,18 @@ function renderAdminDashboard() {
     const totalStudents = 12540;
     const totalCourses = db.courses.length;
     const sysLoad = '34%';
+
+    let pendingReqs = db.admin.pending_requests.map(req => `
+        <tr>
+            <td>Request ${req.id}</td>
+            <td>Change Capacity for Course ${req.course_id}</td>
+            <td><button class="btn btn-primary" style="padding: 0.25rem 0.5rem;" onclick="approveRequest('${req.id}')">Approve</button></td>
+        </tr>
+    `).join('');
+    
+    if (db.admin.pending_requests.length === 0) {
+        pendingReqs = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">No pending requests</td></tr>';
+    }
 
     viewContainer.innerHTML = `
         <div class="stats-grid">
@@ -496,25 +530,11 @@ function renderAdminDashboard() {
 
         <div class="grid-cards" style="grid-template-columns: 2fr 1fr;">
             <div class="glass-card">
-                <h3 class="section-title">Recent Activity</h3>
+                <h3 class="section-title">Pending Administrator Approvals</h3>
                 <div class="data-table-container" style="box-shadow: none; border: none;">
                     <table class="data-table">
                         <tbody>
-                            <tr>
-                                <td><span class="status-badge status-success">Enrolment</span></td>
-                                <td>Student 20261011 enrolled in SCS2303</td>
-                                <td style="color: var(--text-muted); text-align: right;">Just now</td>
-                            </tr>
-                            <tr>
-                                <td><span class="status-badge status-warning">Waitlist</span></td>
-                                <td>Student 20269022 joined waitlist for SCS2301</td>
-                                <td style="color: var(--text-muted); text-align: right;">5 mins ago</td>
-                            </tr>
-                            <tr>
-                                <td><span class="status-badge" style="background-color: var(--primary-light); color: var(--primary);">System</span></td>
-                                <td>Automated backup completed successfully</td>
-                                <td style="color: var(--text-muted); text-align: right;">1 hour ago</td>
-                            </tr>
+                            ${pendingReqs}
                         </tbody>
                     </table>
                 </div>
@@ -534,6 +554,19 @@ function renderAdminDashboard() {
             </div>
         </div>
     `;
+}
+
+async function approveRequest(reqId) {
+    showToast('Executing Command Pattern approval...', 'warning');
+    const res = await fetch('http://localhost:5000/api/admin/approve-request', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ request_id: reqId })
+    });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    await fetchState();
+    renderView();
 }
 
 function renderAdminCourses() {
@@ -591,22 +624,32 @@ function renderAdminReports() {
                 <i class="fa-solid fa-chart-line" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Enrolment Trends</h4>
                 <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Analyze enrolment data across departments and semesters.</p>
-                <button class="btn btn-primary">Generate Report</button>
+                <button class="btn btn-primary" onclick="generateReport('stats')">Generate Report</button>
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-user-graduate" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Faculty Workload</h4>
                 <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Review course assignments and credit hours per faculty.</p>
-                <button class="btn btn-primary">Generate Report</button>
+                <button class="btn btn-primary" onclick="generateReport('workload')">Generate Report</button>
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-fire" style="font-size: 3rem; color: var(--warning); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Course Popularity</h4>
                 <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Identify high-demand courses for resource allocation.</p>
-                <button class="btn btn-primary">Generate Report</button>
+                <button class="btn btn-primary" onclick="generateReport('popularity')">Generate Report</button>
             </div>
         </div>
     `;
+}
+
+async function generateReport(type) {
+    showToast('Generating report via Template Method...', 'warning');
+    const res = await fetch('http://localhost:5000/api/admin/reports');
+    const data = await res.json();
+    
+    if (type === 'stats') alert(data.stats);
+    if (type === 'workload') alert(data.workload);
+    if (type === 'popularity') alert(data.popularity);
 }
 
 
