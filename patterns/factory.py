@@ -1,29 +1,34 @@
 """
 Factory Method Pattern implementation for creating Users.
-As dictated by the System Design Report: The Factory Method Pattern is used by the
-account-management functionality to create different types of NexusEnroll users.
 """
 from abc import ABC, abstractmethod
-from models.user import User, Student, Faculty, Administrator
+from models.user import User, Student, Faculty, Administrator, UserDetails, Role
 
 class UserCreator(ABC):
     """Abstract creator class for Factory Method pattern."""
+    
     @abstractmethod
-    def create_user(self, user_id: str, name: str, email: str) -> User:
+    def createUser(self, details: UserDetails) -> User:
         """Factory method to create a user."""
         pass
+        
+    def registerUser(self, details: UserDetails) -> User:
+        """Template-like method that uses the factory method."""
+        user = self.createUser(details)
+        print(f"Registered new {user.getRole().value}: {user.name}")
+        return user
 
 class StudentCreator(UserCreator):
     """Concrete creator for Student objects."""
-    def create_user(self, user_id: str, name: str, email: str) -> User:
-        return Student(user_id, name, email)
+    def createUser(self, details: UserDetails) -> User:
+        return Student(details.id, details.name, details.email)
 
 class FacultyCreator(UserCreator):
     """Concrete creator for Faculty objects."""
-    def create_user(self, user_id: str, name: str, email: str) -> User:
-        return Faculty(user_id, name, email)
+    def createUser(self, details: UserDetails) -> User:
+        return Faculty(details.id, details.name, details.email)
 
 class AdministratorCreator(UserCreator):
     """Concrete creator for Administrator objects."""
-    def create_user(self, user_id: str, name: str, email: str) -> User:
-        return Administrator(user_id, name, email)
+    def createUser(self, details: UserDetails) -> User:
+        return Administrator(details.id, details.name, details.email)

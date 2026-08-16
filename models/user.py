@@ -2,41 +2,66 @@
 Models for NexusEnroll Users.
 """
 from abc import ABC, abstractmethod
-from typing import List, Dict
+from typing import List, Dict, Any
+from enum import Enum
+
+class Role(Enum):
+    STUDENT = "STUDENT"
+    FACULTY = "FACULTY"
+    ADMINISTRATOR = "ADMINISTRATOR"
+
+class UserDetails:
+    def __init__(self, id: str, name: str, email: str, role: Role = None):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.role = role
 
 class User(ABC):
     """Abstract base class representing a NexusEnroll user."""
-    def __init__(self, user_id: str, name: str, email: str):
-        self.user_id = user_id
-        self.name = name
-        self.email = email
+    def __init__(self, id: str, name: str, email: str):
+        self._id = id
+        self._name = name
+        self._email = email
+
+    @property
+    def id(self) -> str:
+        return self._id
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def email(self) -> str:
+        return self._email
 
     @abstractmethod
-    def get_role(self) -> str:
+    def getRole(self) -> Role:
         """Returns the role of the user."""
         pass
 
 class Student(User):
     """Represents a student user in the NexusEnroll system."""
-    def __init__(self, user_id: str, name: str, email: str):
-        super().__init__(user_id, name, email)
+    def __init__(self, id: str, name: str, email: str):
+        super().__init__(id, name, email)
         self.enrolled_courses: List[str] = []
         self.completed_courses: Dict[str, str] = {} # course_id: grade
         self.waitlisted_courses: List[str] = []
         
-    def get_role(self) -> str:
-        return "Student"
+    def getRole(self) -> Role:
+        return Role.STUDENT
 
 class Faculty(User):
     """Represents a faculty user in the NexusEnroll system."""
-    def __init__(self, user_id: str, name: str, email: str):
-        super().__init__(user_id, name, email)
+    def __init__(self, id: str, name: str, email: str):
+        super().__init__(id, name, email)
         self.teaching_courses: List[str] = []
         
-    def get_role(self) -> str:
-        return "Faculty"
+    def getRole(self) -> Role:
+        return Role.FACULTY
 
 class Administrator(User):
     """Represents an administrator user in the NexusEnroll system."""
-    def get_role(self) -> str:
-        return "Administrator"
+    def getRole(self) -> Role:
+        return Role.ADMINISTRATOR

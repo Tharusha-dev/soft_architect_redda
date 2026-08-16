@@ -9,9 +9,9 @@ class NotificationService:
         self.publisher = EventPublisher()
         
         # Register standard observers defined in System Design
-        self.publisher.register_observer(WaitlistObserver())
-        self.publisher.register_observer(AdvisorObserver())
-        self.publisher.register_observer(AdminErrorObserver())
+        self.publisher.subscribe(WaitlistObserver())
+        self.publisher.subscribe(AdvisorObserver())
+        self.publisher.subscribe(AdminErrorObserver())
         
     def get_publisher(self) -> EventPublisher:
         return self.publisher

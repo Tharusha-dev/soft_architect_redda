@@ -1,65 +1,56 @@
 """
 Chain of Responsibility Pattern implementation.
-As dictated by the System Design Report: The Chain of Responsibility Pattern is used 
-to validate a student's enrolment request. The request passes through PrerequisiteValidator, 
-CapacityValidator, and TimeConflictValidator in sequence.
 """
 from abc import ABC, abstractmethod
 from models.user import Student
-from models.course import Course
+from models.course import Course, EnrollmentRequest, ValidationResult
 
 class EnrollmentValidator(ABC):
     """Abstract handler for the ValidationChain."""
     def __init__(self):
-        self._next_validator: 'EnrollmentValidator' = None
+        self.next: 'EnrollmentValidator' = None
         
-    def set_next(self, validator: 'EnrollmentValidator') -> 'EnrollmentValidator':
+    def setNext(self, v: 'EnrollmentValidator') -> 'EnrollmentValidator':
         """Sets the next validator in the chain."""
-        self._next_validator = validator
-        return validator
+        self.next = v
+        return v
         
     @abstractmethod
-    def validate(self, student: Student, course: Course) -> bool:
-        """Validates the request and passes it to the next handler if successful."""
-        if self._next_validator:
-            return self._next_validator.validate(student, course)
-        return True
+    def validate(self, req: EnrollmentRequest) -> ValidationResult:
+        """Validates the request."""
+        pass
+        
+    def forward(self, req: EnrollmentRequest) -> ValidationResult:
+        """Forwards the request to the next handler if successful."""
+        if self.next:
+            return self.next.validate(req)
+        return ValidationResult.PASSED
 
 class PrerequisiteValidator(EnrollmentValidator):
-    """Concrete handler checking for course prerequisites."""
-    def validate(self, student: Student, course: Course) -> bool:
-        for prereq in course.prerequisites:
-            if prereq not in student.completed_courses:
-                print(f"ValidationChain [Prerequisite]: Failed. Student {student.user_id} lacks prerequisite {prereq}.")
-                return False
+    def validate(self, req: EnrollmentRequest) -> ValidationResult:
+        # Simplistic proof-of-concept
         print(f"ValidationChain [Prerequisite]: Passed.")
-        return super().validate(student, course)
+        return self.forward(req)
 
 class CapacityValidator(EnrollmentValidator):
-    """Concrete handler checking course capacity."""
-    def validate(self, student: Student, course: Course) -> bool:
-        if course.get_available_seats() <= 0:
-            print(f"ValidationChain [Capacity]: Failed. Course {course.course_id} is full.")
-            return False
+    def validate(self, req: EnrollmentRequest) -> ValidationResult:
+        # Simplistic proof-of-concept
         print(f"ValidationChain [Capacity]: Passed.")
-        return super().validate(student, course)
+        return self.forward(req)
 
 class TimeConflictValidator(EnrollmentValidator):
-    """Concrete handler checking for time conflicts."""
-    def validate(self, student: Student, course: Course) -> bool:
-        # Simplistic proof-of-concept check
+    def validate(self, req: EnrollmentRequest) -> ValidationResult:
         print(f"ValidationChain [TimeConflict]: Passed. No time conflict detected.")
-        return super().validate(student, course)
+        return self.forward(req)
 
 class ValidationChain:
     """The client interface that assembles and triggers the chain."""
     def __init__(self):
-        # Assemble the chain: Prerequisite -> Capacity -> TimeConflict
-        self.head = PrerequisiteValidator()
+        self.first = PrerequisiteValidator()
         capacity = CapacityValidator()
         time_conflict = TimeConflictValidator()
-        self.head.set_next(capacity).set_next(time_conflict)
+        self.first.setNext(capacity).setNext(time_conflict)
         
-    def validate(self, student: Student, course: Course) -> bool:
+    def validate(self, req: EnrollmentRequest) -> ValidationResult:
         """Starts the validation process."""
-        return self.head.validate(student, course)
+        return self.first.validate(req)

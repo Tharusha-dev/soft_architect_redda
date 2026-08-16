@@ -3,14 +3,12 @@ Enrollment Service acting as a shared business logic container.
 """
 from patterns.facade import EnrollmentFacade
 from patterns.observer import EventPublisher
-from typing import Dict
-from models.course import Course
-from models.user import Student
+from models.course import CourseOffering, EnrollmentRepository, Schedule
 
 class EnrollmentService:
     """Provides access to the EnrollmentFacade for processing enrollments."""
-    def __init__(self, event_publisher: EventPublisher, courses_db: Dict[str, Course], students_db: Dict[str, Student]):
-        self.facade = EnrollmentFacade(event_publisher, courses_db, students_db)
+    def __init__(self, event_publisher: EventPublisher, offering: CourseOffering, repository: EnrollmentRepository, schedule: Schedule):
+        self.facade = EnrollmentFacade(event_publisher, offering, repository, schedule)
         
     def get_facade(self) -> EnrollmentFacade:
         return self.facade
