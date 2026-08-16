@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusEnroll | Modern University Enrolment</title>
+    
+    <!-- SEO and Meta tags -->
+    <meta name="description" content="NexusEnroll is a modern, responsive university enrolment system for students, faculty, and administrators.">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h1>NexusEnroll</h1>
+                </div>
+            </div>
+
+            <!-- Role Switcher (For MVP Demo Purposes) -->
+            <div class="role-switcher-wrapper">
+                <label for="role-select" class="role-label">View as:</label>
+                <select id="role-select" class="role-select">
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation items dynamically injected by JS based on role -->
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar" id="user-avatar">S</div>
+                    <div class="user-info">
+                        <span class="user-name" id="user-name">Alex Johnson</span>
+                        <span class="user-id" id="user-id">ID: 20261011</span>
+                    </div>
+                </div>
+                <button class="logout-btn">
+                    <i class="fa-solid fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Search courses, people...">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge" id="notif-badge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Views Container -->
+            <div class="view-container" id="view-container">
+                <!-- Content injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
