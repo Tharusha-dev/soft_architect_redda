@@ -1,0 +1,304 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-cmd-a" name="Command A — Faculty Course-Change Requests">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="ccr" value="«invoker»&#10;CourseChangeRequest" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="280" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="ccr-a1" value="- command: Command" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccr">
+          <mxGeometry y="40" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccr-a2" value="- status: RequestStatus" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccr">
+          <mxGeometry y="64" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccr-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="ccr">
+          <mxGeometry y="88" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="ccr-m1" value="+ approve()  → command.execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccr">
+          <mxGeometry y="96" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccr-m2" value="+ reject()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccr">
+          <mxGeometry y="120" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="icmd" value="«interface»&#10;Command" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="60" width="220" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="icmd">
+          <mxGeometry y="40" width="220" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-m1" value="+ execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="icmd">
+          <mxGeometry y="48" width="220" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-m2" value="+ undo()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="icmd">
+          <mxGeometry y="72" width="220" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="udc" value="UpdateDescriptionCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="280" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="udc-a1" value="- course: Course" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="udc">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="udc-a2" value="- newDescription: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="udc">
+          <mxGeometry y="54" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="udc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="udc">
+          <mxGeometry y="78" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="udc-m1" value="+ execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="udc">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="udc-m2" value="+ undo()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="udc">
+          <mxGeometry y="110" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="apc" value="AddPrerequisiteCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="300" width="280" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="apc-a1" value="- course: Course" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="apc">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="apc-a2" value="- prerequisite: Course" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="apc">
+          <mxGeometry y="54" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="apc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="apc">
+          <mxGeometry y="78" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="apc-m1" value="+ execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="apc">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="apc-m2" value="+ undo()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="apc">
+          <mxGeometry y="110" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ccc" value="ChangeCapacityCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="300" width="280" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="ccc-a1" value="- course: Course" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccc">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccc-a2" value="- newCapacity: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccc">
+          <mxGeometry y="54" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="ccc">
+          <mxGeometry y="78" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="ccc-m1" value="+ execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccc">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ccc-m2" value="+ undo()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ccc">
+          <mxGeometry y="110" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="course" value="«receiver»&#10;Course" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="560" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="course-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="course">
+          <mxGeometry y="40" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="course-m1" value="+ setDescription(d: String)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="course">
+          <mxGeometry y="48" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="course-m2" value="+ addPrerequisite(c: Course)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="course">
+          <mxGeometry y="72" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="course-m3" value="+ setCapacity(n: int)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="course">
+          <mxGeometry y="96" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note1" value="Flow: Faculty creates a command → CourseChangeRequest is Pending → Administrator approve() runs command.execute() → Applied (reject() → Rejected). Commands are stored, giving an audit log of course changes." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="340" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eAgg" value="command  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamondThin;startSize=16;startFill=0;endArrow=open;endSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccr" target="icmd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="udc" target="icmd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="apc" target="icmd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccc" target="icmd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec1" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="udc" target="course">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec2" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="apc" target="course">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec3" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccc" target="course">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="nx-cmd-b" name="Command B — Compensable Enrolment Saga Steps">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="note1" value="compensate() is the saga-specific specialisation of undo(): both reverse execute(), but compensation must also work across service-owned data after a step has committed. run() executes the steps in order (reserve seat → create enrolment record → update schedule); if a step fails, compensate() is called on the completed steps in reverse order — all-or-nothing enrolment without a distributed transaction. Same Command pattern as page A applied to a second problem; Saga is only the architectural context." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="380" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="icmd" value="«interface»&#10;Command" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="40" width="240" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="icmd">
+          <mxGeometry y="40" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-m1" value="+ execute()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="icmd">
+          <mxGeometry y="48" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="icmd-m2" value="+ undo()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="icmd">
+          <mxGeometry y="72" width="240" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="icc" value="«interface»&#10;CompensableCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="210" width="260" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="icc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="icc">
+          <mxGeometry y="40" width="260" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="icc-m1" value="+ compensate()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="icc">
+          <mxGeometry y="48" width="260" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="orch" value="«invoker»&#10;SagaOrchestrator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="340" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="orch-a1" value="- steps: List&lt;CompensableCommand&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="orch">
+          <mxGeometry y="40" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="orch-a2" value="- executed: Deque&lt;CompensableCommand&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="orch">
+          <mxGeometry y="64" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="orch-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="orch">
+          <mxGeometry y="88" width="340" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="orch-m1" value="+ run(): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="orch">
+          <mxGeometry y="96" width="340" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rsc" value="ReserveSeatCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="rsc-a1" value="- offering: CourseOffering" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rsc">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rsc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="rsc">
+          <mxGeometry y="54" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="rsc-m1" value="+ execute()  reserve seat" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rsc">
+          <mxGeometry y="62" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rsc-m2" value="+ compensate()  release seat" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rsc">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cec" value="CreateEnrollmentCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="420" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="cec-a1" value="- repository: EnrollmentRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cec">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="cec-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="cec">
+          <mxGeometry y="54" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="cec-m1" value="+ execute()  create enrolment record" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cec">
+          <mxGeometry y="62" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="cec-m2" value="+ compensate()  remove record" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cec">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="usc" value="UpdateScheduleCommand" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="420" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="usc-a1" value="- schedule: Schedule" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usc">
+          <mxGeometry y="30" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="usc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="usc">
+          <mxGeometry y="54" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="usc-m1" value="+ execute()  add schedule entry" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usc">
+          <mxGeometry y="62" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="usc-m2" value="+ compensate()  remove entry" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usc">
+          <mxGeometry y="86" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rco" value="«receiver»&#10;CourseOffering" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="610" width="280" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="rco-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="rco">
+          <mxGeometry y="40" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="rco-m1" value="+ reserveSeat()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rco">
+          <mxGeometry y="48" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rco-m2" value="+ releaseSeat()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rco">
+          <mxGeometry y="72" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rer" value="«receiver»&#10;EnrollmentRepository" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="610" width="280" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="rer-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="rer">
+          <mxGeometry y="40" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="rer-m1" value="+ save(e: Enrollment)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rer">
+          <mxGeometry y="48" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rer-m2" value="+ delete(e: Enrollment)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rer">
+          <mxGeometry y="72" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rsch" value="«receiver»&#10;Schedule" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="610" width="280" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="rsch-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="rsch">
+          <mxGeometry y="40" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="rsch-m1" value="+ addEntry(entry: ScheduleEntry)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rsch">
+          <mxGeometry y="48" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rsch-m2" value="+ removeEntry(entry: ScheduleEntry)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rsch">
+          <mxGeometry y="72" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gExt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="icc" target="icmd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eAgg" value="steps  1..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamondThin;startSize=16;startFill=0;endArrow=open;endSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orch" target="icc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rsc" target="icc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="cec" target="icc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="usc" target="icc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec1" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="rsc" target="rco">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec2" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="cec" target="rer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rec3" value="receiver  1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="usc" target="rsch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-act8" name="Reporting Service — Generate Report (Activity)">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="s" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="285" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Administrator requests a report (ReportType)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="100" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Instantiate the concrete generator (EnrollmentStatisticsReport / FacultyWorkloadReport / CoursePopularityReport)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="150" y="184" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="generateReport() — fixed skeleton {final}" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="284" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="collectData(): query other services&#39; APIs (read-only)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="368" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="processData(): aggregate and analyse" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="458" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" value="formatReport(): produce the Report" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="542" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" value="Return Report to Administrator" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="626" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="endo" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="285" y="710" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="endi" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="293" y="718" width="14" height="14" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note1" value="Template Method (diagram 06): the workflow collectData → processData → formatReport is fixed in ReportGenerator.generateReport(); each concrete report overrides only the steps. Data collection is read-only via service APIs — never another service's database (§4.3)." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="284" width="340" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s" target="a1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a1" target="a2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a2" target="a3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a3" target="a4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a4" target="a5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a5" target="a6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a6" target="a7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a7" target="endo"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

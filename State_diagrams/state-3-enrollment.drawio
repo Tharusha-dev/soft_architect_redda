@@ -1,0 +1,119 @@
+<mxfile host="app.diagrams.net" agent="drawio">
+  <diagram id="nx-st3" name="State — Enrollment (Enrollment Service)">
+    <mxGraphModel dx="2445" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1250" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="init" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="24" width="24" x="-80" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="val" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Validating&#xa;do / run validation chain (01)" vertex="1">
+          <mxGeometry height="80" width="230" x="100" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="enr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Enrolling&#xa;do / execute saga steps (04-B)" vertex="1">
+          <mxGeometry height="80" width="250" x="450" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="conf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Confirmed&#xa;entry / publish EnrollmentConfirmed" vertex="1">
+          <mxGeometry height="80" width="260" x="820" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wait" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Waitlisted&#xa;entry / add to waitlist queue" vertex="1">
+          <mxGeometry height="80" width="230" x="100" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="drop" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Dropped&#xa;entry / release seat; publish events" vertex="1">
+          <mxGeometry height="80" width="260" x="820" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="fail" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Failed&#xa;entry / report failed rule / step" vertex="1">
+          <mxGeometry height="80" width="250" x="450" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="finalo1" parent="1" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="30" width="30" x="1170" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="finali1" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="14" width="14" x="1178" y="273" as="geometry" />
+        </mxCell>
+        <mxCell id="finalo2" parent="1" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="30" width="30" x="810" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="finali2" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="14" width="14" x="818" y="433" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="enroll(studentId, offeringId)">
+          <mxGeometry relative="1" x="-0.0256" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="54" y="80" as="sourcePoint" />
+            <mxPoint x="100" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" source="val" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="enr" value="[all rules pass]">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="330" y="80" as="sourcePoint" />
+            <mxPoint x="430" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t2" edge="1" parent="1" source="enr" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="conf" value="[all steps succeed]">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="680" y="80" as="sourcePoint" />
+            <mxPoint x="790" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="[course full]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="120" as="sourcePoint" />
+            <mxPoint x="250" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" value="seat available / student re-attempts enroll()">
+          <mxGeometry relative="1" y="100" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="60" y="265" />
+              <mxPoint x="60" y="95" />
+            </Array>
+            <mxPoint x="100" y="265" as="sourcePoint" />
+            <mxPoint x="100" y="95" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="[prerequisite or time-conflict fails]">
+          <mxGeometry relative="1" x="0.3882" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="370" y="105" />
+              <mxPoint x="370" y="430" />
+            </Array>
+            <mxPoint x="330" y="105" as="sourcePoint" />
+            <mxPoint x="430" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t6" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="[step fails] / compensate() in reverse order">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="575" y="120" as="sourcePoint" />
+            <mxPoint x="575" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t7" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="drop()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="120" as="sourcePoint" />
+            <mxPoint x="960" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t8" edge="1" parent="1" source="drop" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="finalo1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1050" y="280" as="sourcePoint" />
+            <mxPoint x="1110" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t9" edge="1" parent="1" source="fail" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="finalo2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="440" as="sourcePoint" />
+            <mxPoint x="740" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="Failed is entered only after compensate() has removed any partial state — the all-or-nothing add/drop requirement (§4.4) realised with compensable saga-step Commands (04-B). Waitlisted and Dropped trigger waitlist / advisor notifications via the event bus (Observer, 02)." vertex="1">
+          <mxGeometry height="90" width="720" x="30" y="530" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

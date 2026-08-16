@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net" agent="drawio">
+  <diagram id="nx-st1" name="State — GradeSubmission (Academic Records Service)">
+    <mxGraphModel dx="2876" dy="1001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="init" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="22" width="24" x="-70" y="169" as="geometry" />
+        </mxCell>
+        <mxCell id="draft" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Draft&#xa;entry / editing enabled" vertex="1">
+          <mxGeometry height="80" width="210" x="120" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="pend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Pending&#xa;entry / lock editing" vertex="1">
+          <mxGeometry height="80" width="220" x="430" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="subm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Submitted&#xa;entry / persist GradeRecords" vertex="1">
+          <mxGeometry height="80" width="240" x="850" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="finalo" parent="1" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="30" width="30" x="1130" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="finali" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="14" width="14" x="1138" y="173" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="Faculty creates submission">
+          <mxGeometry relative="1" x="-0.0294" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="64" y="180" as="sourcePoint" />
+            <mxPoint x="120" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="submit()">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="330" y="180" as="sourcePoint" />
+            <mxPoint x="430" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t2" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="subm" value="approve()  [Administrator / registrar]">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="650" y="180" as="sourcePoint" />
+            <mxPoint x="750" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" source="subm" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="finalo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1030" y="179.5" as="sourcePoint" />
+            <mxPoint x="1100" y="179.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="returned for correction  (design addition)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="290" />
+              <mxPoint x="225" y="290" />
+            </Array>
+            <mxPoint x="540" y="220" as="sourcePoint" />
+            <mxPoint x="225" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" value="edit()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="95" />
+              <mxPoint x="260" y="95" />
+            </Array>
+            <mxPoint x="200" y="140" as="sourcePoint" />
+            <mxPoint x="260" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="The assignment requires Pending → Submitted; Draft and the correction return are design additions for edit-before-submission. Implemented with the State pattern (diagram 03): DraftState, PendingState and SubmittedState behind the GradeState interface — invalid transitions are structurally impossible." vertex="1">
+          <mxGeometry height="90" width="640" x="120" y="330" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

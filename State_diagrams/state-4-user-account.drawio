@@ -1,0 +1,56 @@
+<mxfile host="app.diagrams.net" agent="drawio">
+  <diagram id="nx-st4" name="State — UserAccount (Identity / Account Service)">
+    <mxGraphModel dx="2195" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="420" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="init" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="24" width="24" x="-60" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="act" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Active&#xa;entry / account created (Factory Method, 05)" vertex="1">
+          <mxGeometry height="80" width="260" x="130" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="deact" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;verticalAlign=middle;" value="Deactivated&#xa;entry / access revoked" vertex="1">
+          <mxGeometry height="80" width="260" x="580" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="finalo" parent="1" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="30" width="30" x="960" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="finali" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
+          <mxGeometry height="14" width="14" x="968" y="153" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="act" value="createAccount(role, details)">
+          <mxGeometry relative="1" x="-0.0843" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="64" y="160" as="sourcePoint" />
+            <mxPoint x="120" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=-0.008;entryY=0.338;entryDx=0;entryDy=0;entryPerimeter=0;" target="deact" value="deactivate()  [Administrator]">
+          <mxGeometry relative="1" x="-0.0407" y="9" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="390" y="150" as="sourcePoint" />
+            <mxPoint x="520" y="145" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t2" edge="1" parent="1" source="deact" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="act" value="reactivate()  [Administrator]">
+          <mxGeometry relative="1" x="0.0526" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="520" y="180" as="sourcePoint" />
+            <mxPoint x="380" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" source="deact" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="finalo" value="account archived">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="780" y="160" as="sourcePoint" />
+            <mxPoint x="860" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="Identity / Account Service (§5.1, §6.3): Administrators add, edit and deactivate student and faculty accounts. Deactivation preserves history — enrolments and grade records in other services keep referencing the userId (service-owned data, §4.3)." vertex="1">
+          <mxGeometry height="90" width="640" x="120" y="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

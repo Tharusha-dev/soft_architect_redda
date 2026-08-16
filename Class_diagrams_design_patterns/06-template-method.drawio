@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-template" name="Template Method — Report Generation">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="rg" value="«abstract»&#10;ReportGenerator" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="40" width="360" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="rg-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="rg">
+          <mxGeometry y="40" width="360" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="rg-m1" value="+ generateReport(): Report  {final}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="rg">
+          <mxGeometry y="48" width="360" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rg-m2" value="# collectData(): ReportData {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="rg">
+          <mxGeometry y="72" width="360" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rg-m3" value="# processData(d: ReportData) {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="rg">
+          <mxGeometry y="96" width="360" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rg-m4" value="# formatReport(d: ReportData): Report {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="rg">
+          <mxGeometry y="120" width="360" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="esr" value="EnrollmentStatisticsReport" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="300" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="esr-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="esr">
+          <mxGeometry y="30" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="esr-m1" value="# collectData(): ReportData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="esr">
+          <mxGeometry y="38" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="esr-m2" value="# processData(d: ReportData)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="esr">
+          <mxGeometry y="62" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="esr-m3" value="# formatReport(d: ReportData): Report" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="esr">
+          <mxGeometry y="86" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fwr" value="FacultyWorkloadReport" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="300" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fwr-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="fwr">
+          <mxGeometry y="30" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="fwr-m1" value="# collectData(): ReportData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fwr">
+          <mxGeometry y="38" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="fwr-m2" value="# processData(d: ReportData)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fwr">
+          <mxGeometry y="62" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="fwr-m3" value="# formatReport(d: ReportData): Report" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fwr">
+          <mxGeometry y="86" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cpr" value="CoursePopularityReport" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="300" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="cpr-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="cpr">
+          <mxGeometry y="30" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="cpr-m1" value="# collectData(): ReportData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cpr">
+          <mxGeometry y="38" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="cpr-m2" value="# processData(d: ReportData)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cpr">
+          <mxGeometry y="62" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="cpr-m3" value="# formatReport(d: ReportData): Report" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cpr">
+          <mxGeometry y="86" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note1" value="generateReport() is the fixed skeleton: collectData() → processData() → formatReport(). Subclasses vary only the steps. This use of inheritance is deliberate — the algorithm skeleton is genuinely fixed; composition is preferred elsewhere in NexusEnroll. Used by the Reporting Service for administrator reports." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="40" width="300" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="g1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="esr" target="rg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="fwr" target="rg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="cpr" target="rg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-act3" name="Enrollment Service — Enrol in Course (Activity)">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="s" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="285" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Student submits enrolment request (studentId, offeringId)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="90" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="EnrollmentFacade.enroll() starts the validation chain" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="168" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="PrerequisiteValidator: check prerequisites" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="246" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="prerequisites met?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="210" y="324" width="180" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="CapacityValidator: check seat availability" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="422" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="seat available?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="210" y="500" width="180" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="TimeConflictValidator: check timetable conflicts" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="598" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="conflict found?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="210" y="676" width="180" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" value="ReserveSeatCommand.execute() — reserve seat" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="774" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" value="CreateEnrollmentCommand.execute() — create enrolment record" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="852" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" value="UpdateScheduleCommand.execute() — update schedule" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="936" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="all steps succeeded?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="210" y="1014" width="180" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="a9" value="Publish EnrollmentConfirmed event (EventPublisher)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1112" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="a10" value="Return enrolment confirmation to Student" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1190" width="280" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="endo" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="285" y="1274" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="endi" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="293" y="1282" width="14" height="14" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aw" value="Add student to waitlist" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="620" y="513" width="260" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="ac" value="SagaOrchestrator: compensate() completed steps in reverse order (all-or-nothing)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1021" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mf" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="1120" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="af" value="Return failure with reason (validation / saga step)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="650" y="1200" width="260" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="endfo" style="ellipse;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="765" y="1284" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="endfi" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="773" y="1292" width="14" height="14" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note1" value="Assignment process 1 (§9.3): enrolment with prerequisite / capacity / conflict branches. Chain of Responsibility (01) orders the checks; compensable saga-step Commands (04-B) give all-or-nothing semantics; EnrollmentFacade (07) hides the orchestration from the controller." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="330" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s" target="a1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a1" target="a2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a2" target="a3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a3" target="d1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="[yes]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="d1" target="a4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="[no]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d1" target="mf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="356" />
+              <mxPoint x="940" y="1140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" value="[yes]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="d2" target="a5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" value="[no]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d2" target="aw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aw" target="mf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="532" />
+              <mxPoint x="940" y="1140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a4" target="d2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a5" target="d3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" value="[no]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="d3" target="a6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" value="[yes]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d3" target="mf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="708" />
+              <mxPoint x="940" y="1140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a6" target="a7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a7" target="a8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a8" target="d4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e17" value="[yes]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="d4" target="a9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e18" value="[no]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d4" target="ac"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ac" target="mf"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="mf" target="af"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="af" target="endfo"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a9" target="a10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a10" target="endo"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

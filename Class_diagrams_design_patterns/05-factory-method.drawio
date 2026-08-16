@@ -1,0 +1,134 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-factory" name="Factory Method — Role-Specific User Creation">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="uc" value="«abstract»&#10;UserCreator" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="340" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="uc">
+          <mxGeometry y="40" width="340" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-m1" value="+ createUser(details: UserDetails): User {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="uc">
+          <mxGeometry y="48" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-m2" value="+ registerUser(details: UserDetails): User" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="uc">
+          <mxGeometry y="72" width="340" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sc" value="StudentCreator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="240" width="280" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="sc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="sc">
+          <mxGeometry y="30" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sc-m1" value="+ createUser(details): User  (new Student)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="sc">
+          <mxGeometry y="38" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fc" value="FacultyCreator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="240" width="280" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="fc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="fc">
+          <mxGeometry y="30" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="fc-m1" value="+ createUser(details): User  (new Faculty)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fc">
+          <mxGeometry y="38" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ac" value="AdministratorCreator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="240" width="280" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="ac-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="ac">
+          <mxGeometry y="30" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="ac-m1" value="+ createUser(details): User  (new Administrator)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ac">
+          <mxGeometry y="38" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="stu" value="Student" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="420" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="stu-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="stu">
+          <mxGeometry y="30" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="stu-m1" value="+ getRole(): Role  (STUDENT)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="stu">
+          <mxGeometry y="38" width="240" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fac" value="Faculty" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="420" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="fac-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="fac">
+          <mxGeometry y="30" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="fac-m1" value="+ getRole(): Role  (FACULTY)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fac">
+          <mxGeometry y="38" width="240" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="adm" value="Administrator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="420" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="adm-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="adm">
+          <mxGeometry y="30" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="adm-m1" value="+ getRole(): Role  (ADMINISTRATOR)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="adm">
+          <mxGeometry y="38" width="240" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="usr" value="«abstract»&#10;User" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="580" width="260" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="usr-a1" value="# id: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usr">
+          <mxGeometry y="40" width="260" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="usr-a2" value="# name: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usr">
+          <mxGeometry y="64" width="260" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="usr-a3" value="# email: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="usr">
+          <mxGeometry y="88" width="260" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="usr-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="usr">
+          <mxGeometry y="112" width="260" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="usr-m1" value="+ getRole(): Role {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=2;" vertex="1" parent="usr">
+          <mxGeometry y="120" width="260" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note1" value="registerUser() works only with the User abstraction; createUser() is the factory method each concrete creator overrides. A new role means a new creator + product class — no switch statement (OCP). Used by the Identity/Account Service for administrator account management." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="310" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="g1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="sc" target="uc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="fc" target="uc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="ac" target="uc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" value="«creates»" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sc" target="stu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="«creates»" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fc" target="fac">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="«creates»" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ac" target="adm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="stu" target="usr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fac" target="usr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="adm" target="usr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
