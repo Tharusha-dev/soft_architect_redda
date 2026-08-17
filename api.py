@@ -102,6 +102,10 @@ api_student_service = APIStudentService()
 
 @app.route('/api/state', methods=['GET'])
 def get_state():
+    def get_course_code(cid):
+        c = next((c for c in courses_data if str(c.course_id) == str(cid)), None)
+        return c.name if c else str(cid)
+
     return jsonify({
         "courses": [
             {
@@ -119,7 +123,7 @@ def get_state():
         "student": {
             "id": s1.id,
             "name": s1.name,
-            "completedCourses": list(s1.completed_courses.keys()),
+            "completedCourses": [{"id": get_course_code(k), "grade": v} for k, v in s1.completed_courses.items()],
             "enrolledCourses": [int(c) for c in s1.enrolled_courses]
         },
         "faculty": {
@@ -128,12 +132,16 @@ def get_state():
             "taughtCourses": [int(c) for c in f1.teaching_courses]
         },
         "students": [
-            {"id": s.id, "name": s.name, "grade": ""} for s in [s1, s2, s3, s4]
+            {"id": s.id, "name": s.name, "completedCourses": {get_course_code(k): v for k, v in s.completed_courses.items()}} for s in [s1, s2, s3, s4]
         ],
         "admin": {
             "pending_requests": [
                 {"id": req.request_id, "course_id": req.course_id} 
                 for req in admin_service.pending_course_requests
+            ],
+            "pending_grades": [
+                {"course_id": gs.course_id, "faculty_id": gs.faculty_id, "student_id": getattr(gs, 'student_id', None), "grade": getattr(gs, 'grade', None)}
+                for gs in getattr(admin_service, 'pending_grades', [])
             ]
         }
     })
@@ -157,11 +165,22 @@ def submit_grades():
     data = request.json
     course_id = str(data.get('course_id'))
     faculty_id = str(data.get('faculty_id'))
+    student_id = str(data.get('student_id'))
+    grade = data.get('grade')
     
     grade_sub = faculty_service.create_grade_submission(course_id, faculty_id)
     grade_sub.edit()
     grade_sub.submit() # transitions to pending
-    return jsonify({"status": "success", "message": "Grades submitted to Admin (State Pattern: Pending)."})
+    grade_sub.student_id = student_id
+    grade_sub.grade = grade
+    
+    if not hasattr(admin_service, 'pending_grades'):
+        admin_service.pending_grades = []
+    # Avoid duplicates for the same student
+    admin_service.pending_grades = [g for g in admin_service.pending_grades if not (g.course_id == course_id and getattr(g, 'student_id', None) == student_id)]
+    admin_service.pending_grades.append(grade_sub)
+    
+    return jsonify({"status": "success", "message": f"Grade {grade} for {student_id} submitted (State Pattern: Pending)."})
 
 @app.route('/api/faculty/change-capacity', methods=['POST'])
 def change_capacity():
@@ -204,5 +223,47 @@ def get_reports():
         "popularity": popularity
     })
 
+@app.route('/api/admin/approve-grades', methods=['POST'])
+def approve_grades():
+    data = request.json
+    course_id = str(data.get('course_id'))
+    student_id = str(data.get('student_id'))
+    if hasattr(admin_service, 'pending_grades'):
+        for gs in admin_service.pending_grades:
+            if gs.course_id == course_id and getattr(gs, 'student_id', None) == student_id:
+                gs.approve() # State Pattern transition
+                admin_service.pending_grades.remove(gs)
+                
+                student = next((s for s in [s1, s2, s3, s4] if s.id == student_id), None)
+                if student:
+                    student.completed_courses[str(course_id)] = getattr(gs, 'grade', 'P')
+
+                return jsonify({"status": "success", "message": f"State Pattern: Grades for course {course_id} approved."})
+    return jsonify({"status": "error", "message": "No pending grades found."}), 404
+
+@app.route('/api/admin/courses', methods=['POST'])
+def create_course():
+    data = request.json
+    new_course = Course(
+        str(data.get('code')), data.get('code'), data.get('title'), 
+        data.get('instructor'), int(data.get('capacity', 50)), "TBD"
+    )
+    courses_data.append(new_course)
+    offerings[new_course.course_id] = CourseOffering(new_course.course_id, new_course.capacity)
+    offerings[new_course.course_id].enrolled_count = 0
+    facades[new_course.course_id] = EnrollmentService(event_publisher, offerings[new_course.course_id], repository, schedule).get_facade()
+    return jsonify({"status": "success", "message": "Course created (Standard CRUD)."})
+
+@app.route('/api/admin/courses/edit', methods=['PUT'])
+def edit_course():
+    data = request.json
+    course_id = str(data.get('id'))
+    course = next((c for c in courses_data if c.course_id == course_id), None)
+    if course:
+        course.name = data.get('code')
+        course.description = data.get('title')
+        return jsonify({"status": "success", "message": "Course edited (Standard CRUD)."})
+    return jsonify({"status": "error", "message": "Course not found."}), 404
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, use_reloader=False)

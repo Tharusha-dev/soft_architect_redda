@@ -49,12 +49,13 @@ let currentView = 'browse';
 async function init() {
     await fetchState();
     
-    roleSelect.addEventListener('change', (e) => {
+    roleSelect.addEventListener('change', async (e) => {
         currentRole = e.target.value;
         updateUserIdentity();
         renderNav();
         // Load default view for role
         currentView = navConfig[currentRole][0].id;
+        await fetchState();
         renderView();
         showToast(`Switched to ${currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} view`, 'success');
     });
@@ -285,13 +286,22 @@ function renderStudentSchedule() {
 }
 
 function renderStudentProgress() {
+    let completedRows = db.student.completedCourses.map(c => `
+        <tr>
+            <td><strong>${c.id}</strong></td>
+            <td>Spring 2026</td>
+            <td><span class="status-badge status-success">${c.grade}</span></td>
+            <td>3</td>
+        </tr>
+    `).join('');
+
     viewContainer.innerHTML = `
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
                 <div class="stat-info">
                     <h3>Credits Earned</h3>
-                    <div class="stat-value">6 / 120</div>
+                    <div class="stat-value">${db.student.completedCourses.length * 3} / 120</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -317,18 +327,7 @@ function renderStudentProgress() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>SCS1101</strong></td>
-                        <td>Fall 2025</td>
-                        <td><span class="status-badge status-success">A</span></td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SCS2101</strong></td>
-                        <td>Fall 2025</td>
-                        <td><span class="status-badge status-success">A-</span></td>
-                        <td>3</td>
-                    </tr>
+                    ${completedRows}
                 </tbody>
             </table>
         </div>
@@ -411,27 +410,41 @@ function renderFacultyRoster() {
 }
 
 function renderFacultyGrading() {
-    let rows = db.students.map(s => `
+    const facultyCourseId = db.faculty.taughtCourses[0] || 2;
+    const courseObj = db.courses.find(c => c.id == facultyCourseId);
+    const courseTitle = courseObj ? courseObj.code : 'SCS2303';
+
+    const pendingStudentIds = (db.admin && db.admin.pending_grades) 
+        ? db.admin.pending_grades.filter(g => String(g.course_id) == String(facultyCourseId)).map(g => String(g.student_id)) 
+        : [];
+
+    let rows = db.students.map(s => {
+        const sGrade = s.completedCourses ? s.completedCourses[courseTitle] : '';
+        return `
         <tr>
             <td><strong>${s.id}</strong></td>
             <td>${s.name}</td>
             <td>
-                <select class="form-control grade-select" style="width: 100px; padding: 0.5rem;">
+                <select id="grade-sel-${s.id}" class="form-control grade-select" style="width: 100px; padding: 0.5rem;" onchange="document.getElementById('submit-btn-${s.id}').style.display = 'block'">
                     <option value="">-</option>
-                    <option value="A" ${s.grade === 'A' ? 'selected' : ''}>A</option>
-                    <option value="B" ${s.grade === 'B' ? 'selected' : ''}>B</option>
-                    <option value="C" ${s.grade === 'C' ? 'selected' : ''}>C</option>
-                    <option value="F" ${s.grade === 'F' ? 'selected' : ''}>F</option>
+                    <option value="A" ${sGrade === 'A' ? 'selected' : ''}>A</option>
+                    <option value="B" ${sGrade === 'B' ? 'selected' : ''}>B</option>
+                    <option value="C" ${sGrade === 'C' ? 'selected' : ''}>C</option>
+                    <option value="F" ${sGrade === 'F' ? 'selected' : ''}>F</option>
                 </select>
             </td>
-            <td>Pending</td>
+            <td id="status-${s.id}">
+                ${sGrade ? '<span class="status-badge status-success">Approved</span>' : pendingStudentIds.includes(String(s.id)) ? '<span class="status-badge status-warning">Pending</span>' : 'Not Submitted'}
+            </td>
+            <td>
+                <button id="submit-btn-${s.id}" class="btn btn-primary" style="display: none; padding: 0.25rem 0.5rem;" onclick="submitSingleGrade('${s.id}', '${facultyCourseId}')">Submit</button>
+            </td>
         </tr>
-    `).join('');
+    `}).join('');
 
     viewContainer.innerHTML = `
         <div class="mb-6 flex-between">
-            <h3 class="section-title">Grade Submission - SCS2303</h3>
-            <button class="btn btn-primary" onclick="submitGrades()"><i class="fa-solid fa-check-double"></i> Submit All Grades</button>
+            <h3 class="section-title">Grade Submission - ${courseTitle}</h3>
         </div>
         <div class="glass-card mb-6" style="background-color: var(--primary-light); border: none; padding: 1rem;">
             <p style="color: var(--primary); font-size: 0.875rem;"><i class="fa-solid fa-circle-info"></i> Grades submitted here will be sent to the administration for final approval before being published to student records.</p>
@@ -444,6 +457,7 @@ function renderFacultyGrading() {
                         <th>Name</th>
                         <th>Grade</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -454,17 +468,29 @@ function renderFacultyGrading() {
     `;
 }
 
-function submitGrades() {
-    showToast('Validating grades via State Pattern...', 'warning');
+async function submitSingleGrade(studentId, courseId) {
+    showToast('Validating grade via State Pattern...', 'warning');
     
-    fetch('http://localhost:5000/api/faculty/grades/submit', {
+    const gradeSelect = document.getElementById('grade-sel-' + studentId);
+    const grade = gradeSelect ? gradeSelect.value : '';
+    
+    const res = await fetch('http://localhost:5000/api/faculty/grades/submit', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ course_id: 2, faculty_id: db.faculty.id, grades: [] })
-    }).then(res => res.json()).then(data => {
-        showToast(data.message, 'success');
-        triggerNotification();
+        body: JSON.stringify({ course_id: courseId || 2, faculty_id: db.faculty.id, student_id: studentId, grade: grade })
     });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    
+    await fetchState(); // fetch state silently so db is updated, but don't call renderView to avoid wiping form
+    
+    // update specific row DOM
+    const btn = document.getElementById('submit-btn-' + studentId);
+    if (btn) btn.style.display = 'none';
+    const statusCell = document.getElementById('status-' + studentId);
+    if (statusCell) {
+        statusCell.innerHTML = '<span class="status-badge status-warning">Pending</span>';
+    }
 }
 
 async function requestCapacityChange(courseId) {
@@ -499,8 +525,18 @@ function renderAdminDashboard() {
         </tr>
     `).join('');
     
-    if (db.admin.pending_requests.length === 0) {
-        pendingReqs = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">No pending requests</td></tr>';
+    let pendingGrades = (db.admin.pending_grades || []).map(grade => `
+        <tr>
+            <td>Grade Submission</td>
+            <td>Grade for Course ${grade.course_id} (Student: ${grade.student_id})</td>
+            <td><button class="btn btn-primary" style="padding: 0.25rem 0.5rem;" onclick="approveGrades('${grade.course_id}', '${grade.student_id}')">Approve</button></td>
+        </tr>
+    `).join('');
+
+    pendingReqs += pendingGrades;
+    
+    if (!pendingReqs) {
+        pendingReqs = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">No pending approvals</td></tr>';
     }
 
     viewContainer.innerHTML = `
@@ -569,6 +605,19 @@ async function approveRequest(reqId) {
     renderView();
 }
 
+async function approveGrades(courseId, studentId) {
+    showToast('Executing State Pattern approval...', 'warning');
+    const res = await fetch('http://localhost:5000/api/admin/approve-grades', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ course_id: courseId, student_id: studentId })
+    });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    await fetchState();
+    renderView();
+}
+
 function renderAdminCourses() {
     let rows = db.courses.map(c => {
         const capacityPercentage = (c.enrolled / c.capacity) * 100;
@@ -584,7 +633,7 @@ function renderAdminCourses() {
             <td>${c.enrolled}/${c.capacity}</td>
             <td>${capBadge}</td>
             <td>
-                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editCourse('${c.id}')"><i class="fa-solid fa-pen"></i></button>
             </td>
         </tr>
     `}).join('');
@@ -592,7 +641,7 @@ function renderAdminCourses() {
     viewContainer.innerHTML = `
         <div class="mb-6 flex-between">
             <h3 class="section-title">Course Catalogue Management</h3>
-            <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create Course</button>
+            <button class="btn btn-primary" onclick="createCourse()"><i class="fa-solid fa-plus"></i> Create Course</button>
         </div>
         <div class="data-table-container">
             <table class="data-table">
@@ -612,6 +661,42 @@ function renderAdminCourses() {
             </table>
         </div>
     `;
+}
+
+async function createCourse() {
+    const code = prompt("Enter course code (e.g. SCS1234):");
+    const title = prompt("Enter course title:");
+    const instructor = prompt("Enter instructor ID (e.g. F105):");
+    const capacity = prompt("Enter capacity:");
+    if (!code || !title) return;
+
+    showToast('Creating course...', 'warning');
+    const res = await fetch('http://localhost:5000/api/admin/courses', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ code, title, instructor, capacity })
+    });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    await fetchState();
+    renderView();
+}
+
+async function editCourse(courseId) {
+    const code = prompt("Enter new course code:");
+    const title = prompt("Enter new course title:");
+    if (!code || !title) return;
+
+    showToast('Editing course...', 'warning');
+    const res = await fetch('http://localhost:5000/api/admin/courses/edit', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ id: courseId, code, title })
+    });
+    const data = await res.json();
+    showToast(data.message, data.status);
+    await fetchState();
+    renderView();
 }
 
 function renderAdminReports() {
