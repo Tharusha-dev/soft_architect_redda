@@ -2,7 +2,18 @@
 
 A comprehensive Python-based university enrollment system demonstrating advanced software architecture, RESTful API integration, and modern frontend development. The project features a robust core engine built entirely around 7 distinct GoF Design Patterns.
 
-## 🏗️ Design Patterns Implemented
+## Team Members
+
+| Name | Index Number |
+| :--- | :--- |
+| [Member 1 Name] | [Index 1] |
+| [Member 2 Name] | [Index 2] |
+| [Member 3 Name] | [Index 3] |
+| [Member 4 Name] | [Index 4] |
+| [Member 5 Name] | [Index 5] |
+| [Member 6 Name] | [Index 6] |
+
+## Design Patterns Implemented
 
 1. **Factory Method Pattern**
    - **Location:** `patterns/factory.py`
@@ -39,7 +50,7 @@ A comprehensive Python-based university enrollment system demonstrating advanced
    - **Justification:** Defines the skeleton of report generation algorithms (Analytics, Workload, Popularity) while letting subclasses implement specific data-gathering steps.
    - **Benefits:** Promotes code reuse (DRY) by centralizing the standard report formatting structure.
 
-## 🧩 Architecture
+## Architecture
 
 The system is decoupled into logical tiers:
 - **Models:** Domain objects representing Users and Courses.
@@ -48,7 +59,7 @@ The system is decoupled into logical tiers:
 - **API Layer (`api.py`):** Flask REST API exposing the core engine to web clients.
 - **Frontend (`frontend/`):** A modern, responsive HTML/JS interface hooked to the API.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 NexusEnroll/
@@ -77,7 +88,7 @@ NexusEnroll/
     └── styles.css              # Custom UI styling
 ```
 
-## 🚀 How to Run
+## How to Run
 
 ### Prerequisites
 Make sure you have Python 3 installed. Install the necessary dependencies from the `requirements.txt` file.
@@ -112,7 +123,7 @@ python3 -m http.server 8000
 ```
 Open your web browser and navigate to `http://localhost:8000` (or the port specified in your terminal).
 
-## ✨ Key Features Demonstrated
+## Key Features Demonstrated
 
 - **Interactive Role-Based Access:** Instantly swap between Student, Faculty, and Admin interfaces.
 - **Real-Time Data Syncing:** Form submissions (like grading or capacity requests) flow perfectly from the UI into the backend GoF patterns.
