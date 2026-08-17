@@ -37,13 +37,13 @@ courses_data = [
     Course("4", "SCS3201", "Machine Learning", "Dr. Adams", 30, "Mon/Wed 2:00 PM - 4:00 PM"),
     Course("5", "SCS1101", "Introduction to Programming", "Prof. Davis", 100, "Mon/Wed 8:00 AM - 10:00 AM")
 ]
-courses_data[0].prerequisites = [5]
-courses_data[1].prerequisites = ["SCS2101"] 
-courses_data[3].prerequisites = [1]
+courses_data[0].prerequisites = ["5"]
+courses_data[1].prerequisites = ["1"] 
+courses_data[3].prerequisites = ["1"]
 
-s1.completed_courses = {5: "A", "SCS2101": "B"}
+s1.completed_courses = {"5": "A", "1": "B"}
 f1.teaching_courses = ["2"]
-s1.enrolled_courses.append("1")
+s1.enrolled_courses.append("3")
 
 repository = EnrollmentRepository()
 schedule = Schedule()
@@ -53,7 +53,7 @@ for c in courses_data:
     offerings[c.course_id] = CourseOffering(c.course_id, c.capacity)
     
 offerings["1"].enrolled_count = 48
-offerings["2"].enrolled_count = 40
+offerings["2"].enrolled_count = 38
 offerings["3"].enrolled_count = 15
 offerings["4"].enrolled_count = 25
 offerings["5"].enrolled_count = 95

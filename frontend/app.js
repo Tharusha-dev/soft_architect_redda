@@ -20,7 +20,6 @@ const userName = document.getElementById('user-name');
 const userId = document.getElementById('user-id');
 const userAvatar = document.getElementById('user-avatar');
 const toastContainer = document.getElementById('toast-container');
-const notifBadge = document.getElementById('notif-badge');
 
 // Navigation Config
 const navConfig = {
@@ -132,13 +131,6 @@ function renderStudentBrowse() {
     const html = `
         <div class="mb-6 flex-between">
             <h3 class="section-title">Available Courses</h3>
-            <div class="filters">
-                <select class="form-control" style="width: auto;">
-                    <option>All Departments</option>
-                    <option>Computer Science</option>
-                    <option>Mathematics</option>
-                </select>
-            </div>
         </div>
         <div class="grid-cards" id="course-grid"></div>
     `;
@@ -202,7 +194,6 @@ async function enrolCourse(courseId) {
         
         if (res.ok) {
             showToast(data.message, 'success');
-            triggerNotification();
             await fetchState(); // Sync state from python backend
             renderStudentBrowse(); // Re-render
         } else {
@@ -226,7 +217,6 @@ async function dropCourse(courseId) {
         
         if (res.ok) {
             showToast(data.message, 'success');
-            triggerNotification();
             await fetchState(); // Sync state from python backend
             renderStudentBrowse();
         } else {
@@ -258,7 +248,6 @@ function renderStudentSchedule() {
             <td>${course.title}</td>
             <td>${course.schedule}</td>
             <td>${course.instructor}</td>
-            <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"><i class="fa-solid fa-video"></i> Join</button></td>
         </tr>
     `).join('');
 
@@ -274,7 +263,6 @@ function renderStudentSchedule() {
                         <th>Course Name</th>
                         <th>Time & Location</th>
                         <th>Instructor</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -286,14 +274,21 @@ function renderStudentSchedule() {
 }
 
 function renderStudentProgress() {
-    let completedRows = db.student.completedCourses.map(c => `
+    const gradePoints = { 'A': 4.0, 'B': 3.0, 'C': 2.0, 'D': 1.0, 'F': 0.0 };
+    let totalPoints = 0;
+    
+    let completedRows = db.student.completedCourses.map(c => {
+        totalPoints += gradePoints[c.grade] || 4.0;
+        return `
         <tr>
             <td><strong>${c.id}</strong></td>
             <td>Spring 2026</td>
             <td><span class="status-badge status-success">${c.grade}</span></td>
             <td>3</td>
         </tr>
-    `).join('');
+    `}).join('');
+
+    const gpa = db.student.completedCourses.length ? (totalPoints / db.student.completedCourses.length).toFixed(1) : '0.0';
 
     viewContainer.innerHTML = `
         <div class="stats-grid">
@@ -308,7 +303,7 @@ function renderStudentProgress() {
                 <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
                 <div class="stat-info">
                     <h3>Current GPA</h3>
-                    <div class="stat-value">3.8</div>
+                    <div class="stat-value">${gpa}</div>
                 </div>
             </div>
         </div>
@@ -375,20 +370,22 @@ function renderFacultyClasses() {
 }
 
 function renderFacultyRoster() {
+    const facultyCourseId = db.faculty.taughtCourses[0] || 2;
+    const courseObj = db.courses.find(c => c.id == facultyCourseId);
+    const courseTitle = courseObj ? courseObj.code : 'SCS2303';
+
     let rows = db.students.map(s => `
         <tr>
             <td><strong>${s.id}</strong></td>
             <td>${s.name}</td>
             <td>${s.name.toLowerCase().replace(' ', '.')}@nexus.edu</td>
             <td><span class="status-badge status-success">Enrolled</span></td>
-            <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Message</button></td>
         </tr>
     `).join('');
 
     viewContainer.innerHTML = `
         <div class="mb-6 flex-between">
-            <h3 class="section-title">SCS2303 - Class Roster</h3>
-            <button class="btn btn-outline"><i class="fa-solid fa-download"></i> Export CSV</button>
+            <h3 class="section-title">${courseTitle} - Class Roster</h3>
         </div>
         <div class="data-table-container">
             <table class="data-table">
@@ -398,7 +395,6 @@ function renderFacultyRoster() {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -513,9 +509,32 @@ async function requestCapacityChange(courseId) {
 // --- ADMIN VIEWS ---
 
 function renderAdminDashboard() {
-    const totalStudents = 12540;
+    const totalStudents = db.students ? db.students.length : 4;
     const totalCourses = db.courses.length;
-    const sysLoad = '34%';
+    
+    // Calculate real total capacity filled vs available
+    const totalCapacity = db.courses.reduce((sum, c) => sum + c.capacity, 0);
+    const totalEnrolled = db.courses.reduce((sum, c) => sum + c.enrolled, 0);
+    const sysLoad = totalCapacity > 0 ? Math.round((totalEnrolled / totalCapacity) * 100) + '%' : '0%';
+    
+    let alertsHtml = '';
+    db.courses.forEach(c => {
+        if (c.enrolled >= c.capacity) {
+            alertsHtml += `
+            <div style="padding: 1rem; border-left: 3px solid var(--warning); background-color: #FEF3C7; border-radius: 0 0.5rem 0.5rem 0; margin-bottom: 0.5rem;">
+                <h4 style="color: var(--warning); font-size: 0.875rem; margin-bottom: 0.25rem;">Course Over Capacity</h4>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">${c.code} has reached its capacity of ${c.capacity}.</p>
+            </div>`;
+        }
+    });
+    if (!alertsHtml) {
+        alertsHtml = `
+            <div style="padding: 1rem; border-left: 3px solid var(--success); background-color: #D1FAE5; border-radius: 0 0.5rem 0.5rem 0;">
+                <h4 style="color: var(--success); font-size: 0.875rem; margin-bottom: 0.25rem;">System Normal</h4>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">All courses are within operating capacity bounds.</p>
+            </div>
+        `;
+    }
 
     let pendingReqs = db.admin.pending_requests.map(req => `
         <tr>
@@ -545,7 +564,7 @@ function renderAdminDashboard() {
                 <div class="stat-icon" style="background-color: #E0E7FF; color: #4F46E5;"><i class="fa-solid fa-users"></i></div>
                 <div class="stat-info">
                     <h3>Total Enrolled</h3>
-                    <div class="stat-value">${totalStudents.toLocaleString()}</div>
+                    <div class="stat-value">${totalStudents}</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -578,14 +597,7 @@ function renderAdminDashboard() {
             <div class="glass-card">
                 <h3 class="section-title">Alerts</h3>
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="padding: 1rem; border-left: 3px solid var(--danger); background-color: #FEF2F2; border-radius: 0 0.5rem 0.5rem 0;">
-                        <h4 style="color: var(--danger); font-size: 0.875rem; margin-bottom: 0.25rem;">High Load Warning</h4>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">Database connections exceeded 80% capacity.</p>
-                    </div>
-                    <div style="padding: 1rem; border-left: 3px solid var(--warning); background-color: #FEF3C7; border-radius: 0 0.5rem 0.5rem 0;">
-                        <h4 style="color: var(--warning); font-size: 0.875rem; margin-bottom: 0.25rem;">Course Over Capacity</h4>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">SCS2301 waitlist exceeds 20 students. Consider adding a section.</p>
-                    </div>
+                    ${alertsHtml}
                 </div>
             </div>
         </div>
@@ -771,14 +783,6 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-function triggerNotification() {
-    const currentCount = parseInt(notifBadge.textContent) || 0;
-    notifBadge.textContent = currentCount + 1;
-    notifBadge.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-        notifBadge.style.transform = 'scale(1)';
-    }, 200);
-}
 
 // Start App
 document.addEventListener('DOMContentLoaded', init);
