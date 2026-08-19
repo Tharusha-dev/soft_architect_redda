@@ -298,8 +298,6 @@ def edit_course():
         return jsonify({"status": "success", "message": "Course edited (Standard CRUD)."})
     return jsonify({"status": "error", "message": "Course not found."}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000, use_reloader=False)
 
 @app.route('/api/admin/courses', methods=['POST'])
 def add_course():
@@ -375,3 +373,6 @@ def edit_course_api():
             c.name = data['name']
             c.capacity = int(data['capacity'])
     return jsonify({"status": "success"})
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000, use_reloader=False)

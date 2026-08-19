@@ -103,6 +103,9 @@ function uiPrompt(msg, defaultVal='') {
     });
 }
 
+// API Configuration
+const API_URL = 'http://localhost:5000/api';
+
 // Data will be fetched from API
 let db = {};
 
