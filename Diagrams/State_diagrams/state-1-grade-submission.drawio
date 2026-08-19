@@ -22,7 +22,7 @@
         <mxCell id="finali" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
           <mxGeometry height="14" width="14" x="1138" y="173" as="geometry" />
         </mxCell>
-        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="Faculty creates submission">
+        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="Instructure creates submission">
           <mxGeometry relative="1" x="-0.0294" y="10" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="64" y="180" as="sourcePoint" />

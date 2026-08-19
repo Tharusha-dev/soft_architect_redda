@@ -31,7 +31,7 @@
         <mxCell id="finali2" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1">
           <mxGeometry height="14" width="14" x="748" y="303" as="geometry" />
         </mxCell>
-        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="pend" value="Faculty submits change request">
+        <mxCell id="t0" edge="1" parent="1" source="init" style="html=1;endArrow=block;endFill=1;rounded=0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="pend" value="Instructure submits change request">
           <mxGeometry relative="1" x="-0.0753" y="10" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="64" y="180" as="sourcePoint" />
@@ -77,7 +77,7 @@
             <mxPoint x="740" y="310" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="Command pattern (diagram 04-A): the requested change is a Command object held by the request; execute() runs only after Administrator approval, and undo() can reverse an applied change. Faculty is notified of the decision via the Notification Service (Observer, 02)." vertex="1">
+        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="Command pattern (diagram 04-A): the requested change is a Command object held by the request; execute() runs only after Administrator approval, and undo() can reverse an applied change. Instructure is notified of the decision via the Notification Service (Observer, 02)." vertex="1">
           <mxGeometry height="90" width="640" x="120" y="380" as="geometry" />
         </mxCell>
       </root>
