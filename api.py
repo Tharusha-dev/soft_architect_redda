@@ -61,10 +61,23 @@ offerings["5"].enrolled_count = 95
 notification_service = NotificationService()
 event_publisher = notification_service.get_publisher()
 
+
+class DummyCourseRepo:
+    def get(self, cid):
+        return next((c for c in courses_data if c.course_id == str(cid)), None)
+
+class DummyUserRepo:
+    def get(self, uid):
+        return next((s for s in [s1, s2, s3, s4, f1] if s.id == str(uid)), None)
+
+course_repo = DummyCourseRepo()
+user_repo = DummyUserRepo()
+
 facades = {}
 for cid, offering in offerings.items():
-    es = EnrollmentService(event_publisher, offering, repository, schedule)
-    facades[cid] = es.get_facade()
+    facade = EnrollmentFacade(event_publisher, offering, repository, schedule, course_repo, user_repo, offerings)
+    facades[cid] = facade
+
 
 admin_service = AdminService()
 instructure_service = InstructureService()
@@ -78,13 +91,6 @@ class APIStudentService:
         course = next((c for c in courses_data if c.course_id == course_id), None)
         student = next((s for s in [s1, s2, s3, s4] if s.id == student_id), None)
         
-        for prereq in course.prerequisites:
-            if prereq not in student.completed_courses:
-                return EnrollmentResult.FAILURE
-                
-        if offerings[course_id].enrolled_count >= course.capacity:
-            return EnrollmentResult.FAILURE
-
         result = facade.enroll(student_id, str(course_id))
         if result == EnrollmentResult.SUCCESS:
             student.enrolled_courses.append(str(course_id))

@@ -1,3 +1,23 @@
+
+import datetime
+
+def check_time_conflict(sched1: str, sched2: str) -> bool:
+    if sched1 == sched2: return True
+    try:
+        d1, t1 = sched1.split(' ', 1)
+        d2, t2 = sched2.split(' ', 1)
+        if not set(d1.split('/')).intersection(set(d2.split('/'))):
+            return False
+        s1, e1 = t1.split('-')
+        s2, e2 = t2.split('-')
+        fmt = "%I:%M %p"
+        st1 = datetime.datetime.strptime(s1.strip(), fmt)
+        en1 = datetime.datetime.strptime(e1.strip(), fmt)
+        st2 = datetime.datetime.strptime(s2.strip(), fmt)
+        en2 = datetime.datetime.strptime(e2.strip(), fmt)
+        return st1 < en2 and st2 < en1
+    except:
+        return False
 """
 Models for NexusEnroll Courses.
 """
@@ -27,9 +47,14 @@ class EnrollmentEvent:
         self.payload = payload
 
 class EnrollmentRequest:
-    def __init__(self, student_id: str, course_id: str):
+    def __init__(self, student_id: str, course_id: str, student=None, course=None, offering=None, schedule=None, enrolled_schedules=None):
         self.student_id = student_id
         self.course_id = course_id
+        self.student = student
+        self.course = course
+        self.offering = offering
+        self.schedule = schedule
+        self.enrolled_schedules = enrolled_schedules or []
 
 class Enrollment:
     def __init__(self, student_id: str, course_id: str):
@@ -61,6 +86,7 @@ class CourseOffering:
         self.course_id = course_id
         self.capacity = capacity
         self.enrolled_count = 0
+        self.waitlist = []
 
     def reserveSeat(self):
         if self.enrolled_count < self.capacity:
@@ -71,6 +97,10 @@ class CourseOffering:
     def releaseSeat(self):
         if self.enrolled_count > 0:
             self.enrolled_count -= 1
+
+    def addToWaitlist(self, student_id: str):
+        if student_id not in self.waitlist:
+            self.waitlist.append(student_id)
 
 class ScheduleEntry:
     def __init__(self, student_id: str, course_id: str):
@@ -96,3 +126,10 @@ class EnrollmentRepository:
 
     def delete(self, e: Enrollment):
         self.enrollments = [enr for enr in self.enrollments if not (enr.student_id == e.student_id and enr.course_id == e.course_id)]
+
+class DegreeProgram:
+    def __init__(self, id: str, name: str, required_credits: int, required_courses: list):
+        self.id = id
+        self.name = name
+        self.required_credits = required_credits
+        self.required_courses = required_courses

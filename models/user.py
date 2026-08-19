@@ -23,6 +23,13 @@ class User(ABC):
         self._id = id
         self._name = name
         self._email = email
+        self.is_active = True
+        
+    def deactivate(self):
+        self.is_active = False
+        
+    def reactivate(self):
+        self.is_active = True
 
     @property
     def id(self) -> str:
