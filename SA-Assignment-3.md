@@ -64,7 +64,7 @@ UCSC, So'ware Architecture (SCS 2303), 2026 Page  of 2 10
 
 ###### **Part B: Detailed Design & Implementation (70% of grade)** 
 
-1. **Identify Core Features:** Focus on the core modules related to student, faculty and administrator as described in section 5. 
+1. **Identify Core Features:** Focus on the core modules related to student, instructure and administrator as described in section 5. 
 
 2. **Apply Design Patterns:** Within the context of your chosen architectural pattern, design and implement the logic for this feature using a minimum of **three distinct object-oriented design patterns** . 
 
@@ -108,7 +108,7 @@ UCSC, So'ware Architecture (SCS 2303), 2026 Page  of 3 10
 
 6. **Implement the Solution:** Write a small, runnable proof-of-concept application (using a language like C++, Java, C#, or Python) that demonstrates your design. The code should: 
 
-   - Implement the modules - student, faculty and administrator. 
+   - Implement the modules - student, instructure and administrator. 
 
    - Represent the core components you defined in your architecture. 
 
@@ -116,7 +116,7 @@ UCSC, So'ware Architecture (SCS 2303), 2026 Page  of 3 10
 
 UCSC, So'ware Architecture (SCS 2303), 2026 Page  of 4 10 
 
-   - Include a simple main function or test classes that simulate student, faculty and administration functions/user stories - implementation of UI to interface the core business tier logic is optional. 
+   - Include a simple main function or test classes that simulate student, instructure and administration functions/user stories - implementation of UI to interface the core business tier logic is optional. 
 
    - Provide clear comments explaining the code and the role of each design pattern. 
 
@@ -156,9 +156,9 @@ The new system, "NexusEnroll," must address the following key requirements:
 
 - **Student Self-Service:** Students should be able to browse course catalogues, add/drop classes, view their schedule, and check their academic progress. 
 
-- **Faculty Management:** Faculty members need to see their class rosters, submit grades, and request course changes. 
+- **Instructure Management:** Instructure members need to see their class rosters, submit grades, and request course changes. 
 
-- **Administrator Control:** University administrators require tools to manage course offerings, student records, and generate reports on enrolment trends and faculty workload. 
+- **Administrator Control:** University administrators require tools to manage course offerings, student records, and generate reports on enrolment trends and instructure workload. 
 
 - **Scalability:** The system must be able to handle a high volume of simultaneous users, especially during peak enrolment periods. 
 
@@ -224,9 +224,9 @@ UCSC, So'ware Architecture (SCS 2303), 2026 Page  of 7 10
 
 - The system should show which courses are still required for their degree program. 
 
-##### **2. Faculty Module** 
+##### **2. Instructure Module** 
 
-The faculty module provides tools for instructors to manage their classes. 
+The instructure module provides tools for instructors to manage their classes. 
 
 ###### • **Class Roster Viewing:** 
 
@@ -258,9 +258,9 @@ The administrator module is the central control panel for the entire system, wit
 
    - They can define and manage degree programs, including the required courses and credits. 
 
-- **Student & Faculty Management:** 
+- **Student & Instructure Management:** 
 
-   - Administrators can add, edit, and deactivate student and faculty accounts. 
+   - Administrators can add, edit, and deactivate student and instructure accounts. 
 
    - They can manually override enrolment rules (e.g., force-add a student into a full class). 
 
@@ -270,7 +270,7 @@ The administrator module is the central control panel for the entire system, wit
 
    - Enrolment statistics by department and semester. 
 
-   - Faculty workload reports. 
+   - Instructure workload reports. 
 
    - Course popularity trends. 
 

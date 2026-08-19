@@ -2,7 +2,7 @@
 Administrator Module implementation.
 """
 from patterns.command import CourseChangeRequest
-from patterns.template_method import EnrollmentStatisticsReport, FacultyWorkloadReport, CoursePopularityReport
+from patterns.template_method import EnrollmentStatisticsReport, InstructureWorkloadReport, CoursePopularityReport
 from typing import List
 
 class AdminService:
@@ -11,7 +11,7 @@ class AdminService:
         self.pending_course_requests: List[CourseChangeRequest] = []
         
     def receive_course_change_request(self, request: CourseChangeRequest):
-        """Receives a course change request from faculty."""
+        """Receives a course change request from instructure."""
         self.pending_course_requests.append(request)
         print(f"AdminService: Received course change request {request.request_id}.")
         

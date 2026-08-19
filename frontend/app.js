@@ -28,7 +28,7 @@ const navConfig = {
         { id: 'schedule', icon: 'fa-calendar-days', label: 'My Schedule' },
         { id: 'progress', icon: 'fa-chart-line', label: 'Academic Progress' }
     ],
-    faculty: [
+    instructure: [
         { id: 'my-classes', icon: 'fa-chalkboard-user', label: 'My Classes' },
         { id: 'roster', icon: 'fa-users', label: 'Class Roster' },
         { id: 'grading', icon: 'fa-pen-to-square', label: 'Grade Submission' }
@@ -70,10 +70,10 @@ function updateUserIdentity() {
         userName.textContent = db.student.name;
         userId.textContent = `ID: ${db.student.id}`;
         userAvatar.textContent = db.student.name.charAt(0);
-    } else if (currentRole === 'faculty') {
-        userName.textContent = db.faculty.name;
-        userId.textContent = `ID: ${db.faculty.id}`;
-        userAvatar.textContent = db.faculty.name.charAt(0);
+    } else if (currentRole === 'instructure') {
+        userName.textContent = db.instructure.name;
+        userId.textContent = `ID: ${db.instructure.id}`;
+        userAvatar.textContent = db.instructure.name.charAt(0);
     } else {
         userName.textContent = 'System Admin';
         userId.textContent = 'ID: ADMIN-01';
@@ -114,10 +114,10 @@ function renderView() {
         if (currentView === 'browse') renderStudentBrowse();
         else if (currentView === 'schedule') renderStudentSchedule();
         else if (currentView === 'progress') renderStudentProgress();
-    } else if (currentRole === 'faculty') {
-        if (currentView === 'my-classes') renderFacultyClasses();
-        else if (currentView === 'roster') renderFacultyRoster();
-        else if (currentView === 'grading') renderFacultyGrading();
+    } else if (currentRole === 'instructure') {
+        if (currentView === 'my-classes') renderInstructureClasses();
+        else if (currentView === 'roster') renderInstructureRoster();
+        else if (currentView === 'grading') renderInstructureGrading();
     } else if (currentRole === 'admin') {
         if (currentView === 'dashboard') renderAdminDashboard();
         else if (currentView === 'courses') renderAdminCourses();
@@ -329,10 +329,10 @@ function renderStudentProgress() {
     `;
 }
 
-// --- FACULTY VIEWS ---
+// --- INSTRUCTURE VIEWS ---
 
-function renderFacultyClasses() {
-    const taughtCourses = db.courses.filter(c => db.faculty.taughtCourses.includes(c.id));
+function renderInstructureClasses() {
+    const taughtCourses = db.courses.filter(c => db.instructure.taughtCourses.includes(c.id));
     
     let html = `<div class="grid-cards">`;
     taughtCourses.forEach(course => {
@@ -369,9 +369,9 @@ function renderFacultyClasses() {
     viewContainer.innerHTML = html;
 }
 
-function renderFacultyRoster() {
-    const facultyCourseId = db.faculty.taughtCourses[0] || 2;
-    const courseObj = db.courses.find(c => c.id == facultyCourseId);
+function renderInstructureRoster() {
+    const instructureCourseId = db.instructure.taughtCourses[0] || 2;
+    const courseObj = db.courses.find(c => c.id == instructureCourseId);
     const courseTitle = courseObj ? courseObj.code : 'SCS2303';
 
     let rows = db.students.map(s => `
@@ -405,13 +405,13 @@ function renderFacultyRoster() {
     `;
 }
 
-function renderFacultyGrading() {
-    const facultyCourseId = db.faculty.taughtCourses[0] || 2;
-    const courseObj = db.courses.find(c => c.id == facultyCourseId);
+function renderInstructureGrading() {
+    const instructureCourseId = db.instructure.taughtCourses[0] || 2;
+    const courseObj = db.courses.find(c => c.id == instructureCourseId);
     const courseTitle = courseObj ? courseObj.code : 'SCS2303';
 
     const pendingStudentIds = (db.admin && db.admin.pending_grades) 
-        ? db.admin.pending_grades.filter(g => String(g.course_id) == String(facultyCourseId)).map(g => String(g.student_id)) 
+        ? db.admin.pending_grades.filter(g => String(g.course_id) == String(instructureCourseId)).map(g => String(g.student_id)) 
         : [];
 
     let rows = db.students.map(s => {
@@ -433,7 +433,7 @@ function renderFacultyGrading() {
                 ${sGrade ? '<span class="status-badge status-success">Approved</span>' : pendingStudentIds.includes(String(s.id)) ? '<span class="status-badge status-warning">Pending</span>' : 'Not Submitted'}
             </td>
             <td>
-                <button id="submit-btn-${s.id}" class="btn btn-primary" style="display: none; padding: 0.25rem 0.5rem;" onclick="submitSingleGrade('${s.id}', '${facultyCourseId}')">Submit</button>
+                <button id="submit-btn-${s.id}" class="btn btn-primary" style="display: none; padding: 0.25rem 0.5rem;" onclick="submitSingleGrade('${s.id}', '${instructureCourseId}')">Submit</button>
             </td>
         </tr>
     `}).join('');
@@ -470,10 +470,10 @@ async function submitSingleGrade(studentId, courseId) {
     const gradeSelect = document.getElementById('grade-sel-' + studentId);
     const grade = gradeSelect ? gradeSelect.value : '';
     
-    const res = await fetch('http://localhost:5000/api/faculty/grades/submit', {
+    const res = await fetch('http://localhost:5000/api/instructure/grades/submit', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ course_id: courseId || 2, faculty_id: db.faculty.id, student_id: studentId, grade: grade })
+        body: JSON.stringify({ course_id: courseId || 2, instructure_id: db.instructure.id, student_id: studentId, grade: grade })
     });
     const data = await res.json();
     showToast(data.message, data.status);
@@ -495,10 +495,10 @@ async function requestCapacityChange(courseId) {
     
     showToast('Sending Course Change Request Command...', 'warning');
     
-    const res = await fetch('http://localhost:5000/api/faculty/change-capacity', {
+    const res = await fetch('http://localhost:5000/api/instructure/change-capacity', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ course_id: courseId, faculty_id: db.faculty.id, capacity: newCap })
+        body: JSON.stringify({ course_id: courseId, instructure_id: db.instructure.id, capacity: newCap })
     });
     const data = await res.json();
     showToast(data.message, data.status);
@@ -725,8 +725,8 @@ function renderAdminReports() {
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-user-graduate" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-                <h4 style="margin-bottom: 0.5rem;">Faculty Workload</h4>
-                <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Review course assignments and credit hours per faculty.</p>
+                <h4 style="margin-bottom: 0.5rem;">Instructure Workload</h4>
+                <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Review course assignments and credit hours per instructure.</p>
                 <button class="btn btn-primary" onclick="generateReport('workload')">Generate Report</button>
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">

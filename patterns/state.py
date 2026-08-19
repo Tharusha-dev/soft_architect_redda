@@ -60,9 +60,9 @@ class SubmittedState(GradeState):
 
 class GradeSubmission:
     """The Context class that maintains a reference to the current GradeState."""
-    def __init__(self, course_id: str, faculty_id: str):
+    def __init__(self, course_id: str, instructure_id: str):
         self.course_id = course_id
-        self.faculty_id = faculty_id
+        self.instructure_id = instructure_id
         self.grades: List[GradeRecord] = []
         self.state: GradeState = DraftState()
         

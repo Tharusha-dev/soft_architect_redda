@@ -2,7 +2,7 @@
 Factory Method Pattern implementation for creating Users.
 """
 from abc import ABC, abstractmethod
-from models.user import User, Student, Faculty, Administrator, UserDetails, Role
+from models.user import User, Student, Instructure, Administrator, UserDetails, Role
 
 class UserCreator(ABC):
     """Abstract creator class for Factory Method pattern."""
@@ -23,10 +23,10 @@ class StudentCreator(UserCreator):
     def createUser(self, details: UserDetails) -> User:
         return Student(details.id, details.name, details.email)
 
-class FacultyCreator(UserCreator):
-    """Concrete creator for Faculty objects."""
+class InstructureCreator(UserCreator):
+    """Concrete creator for Instructure objects."""
     def createUser(self, details: UserDetails) -> User:
-        return Faculty(details.id, details.name, details.email)
+        return Instructure(details.id, details.name, details.email)
 
 class AdministratorCreator(UserCreator):
     """Concrete creator for Administrator objects."""

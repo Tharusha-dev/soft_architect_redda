@@ -8,7 +8,7 @@
         <mxCell id="s" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="285" y="40" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="a1" value="Faculty enters grades for a course offering" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+        <mxCell id="a1" value="Instructure enters grades for a course offering" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
           <mxGeometry x="160" y="100" width="280" height="44" as="geometry" />
         </mxCell>
         <mxCell id="a2" value="Validate grade values" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
@@ -17,10 +17,10 @@
         <mxCell id="d1" value="grades valid?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="210" y="268" width="180" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="fix" value="Show validation errors to Faculty" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+        <mxCell id="fix" value="Show validation errors to Instructure" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
           <mxGeometry x="560" y="281" width="240" height="38" as="geometry" />
         </mxCell>
-        <mxCell id="a3" value="GradeSubmission in Draft — Faculty may edit() (DraftState)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+        <mxCell id="a3" value="GradeSubmission in Draft — Instructure may edit() (DraftState)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
           <mxGeometry x="150" y="372" width="300" height="50" as="geometry" />
         </mxCell>
         <mxCell id="a4" value="submit(): Draft → Pending (locked for editing)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">

@@ -1,5 +1,5 @@
 <mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
-  <diagram id="nx-cmd-a" name="Command A — Faculty Course-Change Requests">
+  <diagram id="nx-cmd-a" name="Command A — Instructure Course-Change Requests">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -110,7 +110,7 @@
           <mxGeometry y="96" width="280" height="24" as="geometry" />
         </mxCell>
 
-        <mxCell id="note1" value="Flow: Faculty creates a command → CourseChangeRequest is Pending → Administrator approve() runs command.execute() → Applied (reject() → Rejected). Commands are stored, giving an audit log of course changes." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+        <mxCell id="note1" value="Flow: Instructure creates a command → CourseChangeRequest is Pending → Administrator approve() runs command.execute() → Applied (reject() → Rejected). Commands are stored, giving an audit log of course changes." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="40" y="560" width="340" height="110" as="geometry" />
         </mxCell>
 

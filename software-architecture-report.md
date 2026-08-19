@@ -28,7 +28,7 @@ System Design Report
 
 [2.1.1. Student Module	5](#student-module)
 
-[2.1.2. Faculty Module	5](#faculty-module)
+[2.1.2. Instructure Module	5](#instructure-module)
 
 [2.1.3. Administrator Module	6](#administrator-module)
 
@@ -56,7 +56,7 @@ System Design Report
 
 [2.2.6. Command Pattern	11](#command-pattern)
 
-[Faculty Course Change Requests	11](#faculty-course-change-requests)
+[Instructure Course Change Requests	11](#instructure-course-change-requests)
 
 [2.2.7. Template Method Pattern	12](#template-method-pattern)
 
@@ -154,9 +154,9 @@ The Student Module supports students in managing course enrolment, schedules, ac
 * **Notifications:** Receive enrolment confirmations, waitlist seat-availability alerts, and relevant course updates.
 
 
-  2. ### Faculty Module {#faculty-module}
+  2. ### Instructure Module {#instructure-module}
 
-The Faculty Module allows instructors to manage their assigned courses, student rosters, grades, and course-change requests.
+The Instructure Module allows instructors to manage their assigned courses, student rosters, grades, and course-change requests.
 
 * **Class Roster:** View enrolled students together with their IDs and contact information.  
 * **Grade Submission:** Enter and validate grades while managing the submission lifecycle through **Draft, Pending, and Submitted** states.  
@@ -168,10 +168,10 @@ The Faculty Module allows instructors to manage their assigned courses, student 
 The Administrator Module provides system-wide academic, user, enrolment, and reporting functions.
 
 * **Course and Program Management:** Create, edit, or delete courses and manage degree programs, required courses, and credit requirements.  
-* **User Management:** Create, update, and deactivate student and faculty accounts.  
+* **User Management:** Create, update, and deactivate student and instructure accounts.  
 * **Enrolment Administration:** Override normal enrolment rules or force-add students when authorized.  
-* **Course Change Approval:** Review and approve or reject faculty course-change requests.  
-* **Reporting and Analytics:** Generate enrolment statistics, faculty workload reports, and course popularity reports.
+* **Course Change Approval:** Review and approve or reject instructure course-change requests.  
+* **Reporting and Analytics:** Generate enrolment statistics, instructure workload reports, and course popularity reports.
 
 
   4. ### Shared Services {#shared-services}
@@ -192,9 +192,9 @@ Several business functions are shared across the main modules.
 
 **User Account Creation**
 
-The **Factory Method Pattern** is used by the account-management functionality to create different types of NexusEnroll users. The abstract `UserCreator` defines the common user-creation process, while `StudentCreator`, `FacultyCreator`, and `AdministratorCreator` determine the specific `User` subclass that should be created.
+The **Factory Method Pattern** is used by the account-management functionality to create different types of NexusEnroll users. The abstract `UserCreator` defines the common user-creation process, while `StudentCreator`, `InstructureCreator`, and `AdministratorCreator` determine the specific `User` subclass that should be created.
 
-All created users are accessed through the common `User` abstraction, with concrete products represented by `Student`, `Faculty`, and `Administrator`. This removes direct user-object construction from the general registration logic and makes the design easier to extend if additional user roles are introduced in the future.
+All created users are accessed through the common `User` abstraction, with concrete products represented by `Student`, `Instructure`, and `Administrator`. This removes direct user-object construction from the general registration logic and makes the design easier to extend if additional user roles are introduced in the future.
 
 ![][image1]
 
@@ -234,7 +234,7 @@ Observers such as `WaitlistObserver`, `AdvisorObserver`, and `AdminErrorObserver
 
 ### **Grade Submission** {#grade-submission}
 
-The **State Pattern** is used to manage the lifecycle of a faculty grade submission. The `GradeSubmission` object maintains its current `GradeState` and delegates operations such as submitting, approving, and editing to that state.
+The **State Pattern** is used to manage the lifecycle of a instructure grade submission. The `GradeSubmission` object maintains its current `GradeState` and delegates operations such as submitting, approving, and editing to that state.
 
 The concrete states are `DraftState`, `PendingState`, and `SubmittedState`. Each state defines which operations are valid at that stage and controls the transition to the next state. This prevents invalid grade-processing actions from being scattered throughout the business logic and provides a clear way to manage the grade submission lifecycle.
 
@@ -242,9 +242,9 @@ The concrete states are `DraftState`, `PendingState`, and `SubmittedState`. Each
 
 6. ## Command Pattern {#command-pattern}
 
-### **Faculty Course Change Requests** {#faculty-course-change-requests}
+### **Instructure Course Change Requests** {#instructure-course-change-requests}
 
-The **Command Pattern** is used to represent course-change requests submitted by faculty members. Operations such as updating a course description, adding a prerequisite, or changing course capacity are encapsulated as `UpdateDescriptionCommand`, `AddPrerequisiteCommand`, and `ChangeCapacityCommand`.
+The **Command Pattern** is used to represent course-change requests submitted by instructure members. Operations such as updating a course description, adding a prerequisite, or changing course capacity are encapsulated as `UpdateDescriptionCommand`, `AddPrerequisiteCommand`, and `ChangeCapacityCommand`.
 
 A `CourseChangeRequest` stores the selected command while the request is awaiting an administrator's decision. When the request is approved, the command is executed on the `Course` receiver; if necessary, the command can also provide an undo operation. This separates the request and approval process from the actual course modification logic and makes different types of course changes easier to add and manage.
 
@@ -258,7 +258,7 @@ The same command concept can also support compensating operations within the enr
 
 The **Template Method Pattern** is used in the Reporting Service to generate administrator reports using a consistent processing workflow. The abstract `ReportGenerator` defines the overall `generateReport()` process, which consists of collecting data, processing the data, and formatting the final report.
 
-Concrete classes such as `EnrollmentStatisticsReport`, `FacultyWorkloadReport`, and `CoursePopularityReport` provide their own implementations of these individual steps while following the same overall report-generation sequence. This avoids duplicating the common report workflow and allows new report types to be introduced by implementing only the steps that vary.
+Concrete classes such as `EnrollmentStatisticsReport`, `InstructureWorkloadReport`, and `CoursePopularityReport` provide their own implementations of these individual steps while following the same overall report-generation sequence. This avoids duplicating the common report workflow and allows new report types to be introduced by implementing only the steps that vary.
 
 ![][image7]
 

@@ -43,15 +43,15 @@ class EnrollmentStatisticsReport(ReportGenerator):
     def formatReport(self, d: ReportData) -> Report:
         return Report(f"\n--- Automated System Report ---\n{d.processed_data}\n-------------------------------\n")
 
-class FacultyWorkloadReport(ReportGenerator):
-    """Concrete report for faculty workload."""
+class InstructureWorkloadReport(ReportGenerator):
+    """Concrete report for instructure workload."""
     def collectData(self) -> ReportData:
         return ReportData({"Prof. Alan Turing": 3, "Prof. Ada Lovelace": 2})
         
     def processData(self, d: ReportData):
-        report = "Faculty Workload Analysis:\n"
-        for faculty, courses in d.data.items():
-            report += f" - {faculty}: {courses} active courses\n"
+        report = "Instructure Workload Analysis:\n"
+        for instructure, courses in d.data.items():
+            report += f" - {instructure}: {courses} active courses\n"
         d.processed_data = report
         
     def formatReport(self, d: ReportData) -> Report:

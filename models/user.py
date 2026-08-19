@@ -7,7 +7,7 @@ from enum import Enum
 
 class Role(Enum):
     STUDENT = "STUDENT"
-    FACULTY = "FACULTY"
+    INSTRUCTURE = "INSTRUCTURE"
     ADMINISTRATOR = "ADMINISTRATOR"
 
 class UserDetails:
@@ -52,14 +52,14 @@ class Student(User):
     def getRole(self) -> Role:
         return Role.STUDENT
 
-class Faculty(User):
-    """Represents a faculty user in the NexusEnroll system."""
+class Instructure(User):
+    """Represents a instructure user in the NexusEnroll system."""
     def __init__(self, id: str, name: str, email: str):
         super().__init__(id, name, email)
         self.teaching_courses: List[str] = []
         
     def getRole(self) -> Role:
-        return Role.FACULTY
+        return Role.INSTRUCTURE
 
 class Administrator(User):
     """Represents an administrator user in the NexusEnroll system."""

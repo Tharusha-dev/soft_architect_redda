@@ -26,7 +26,7 @@
         <mxCell id="endfi" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="633" y="398" width="14" height="14" as="geometry" />
         </mxCell>
-        <mxCell id="a3" value="Select role-specific creator (StudentCreator / FacultyCreator / AdministratorCreator)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
+        <mxCell id="a3" value="Select role-specific creator (StudentCreator / InstructureCreator / AdministratorCreator)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">
           <mxGeometry x="140" y="398" width="320" height="50" as="geometry" />
         </mxCell>
         <mxCell id="a4" value="createUser() builds the role-specific User object (Factory Method — diagram 05)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;" vertex="1" parent="1">

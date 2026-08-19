@@ -17,7 +17,7 @@ A comprehensive Python-based university enrollment system demonstrating advanced
 
 1. **Factory Method Pattern**
    - **Location:** `patterns/factory.py`
-   - **Justification:** Centralizes the instantiation logic for various user roles (`Student`, `Faculty`, `Administrator`).
+   - **Justification:** Centralizes the instantiation logic for various user roles (`Student`, `Instructure`, `Administrator`).
    - **Benefits:** Follows the Open/Closed Principle. Allows seamless introduction of new user types without modifying existing user creation flows.
 
 2. **Facade Pattern**
@@ -42,7 +42,7 @@ A comprehensive Python-based university enrollment system demonstrating advanced
 
 6. **State Pattern**
    - **Location:** `patterns/state.py`
-   - **Justification:** Manages the lifecycle of Faculty Grade Submissions (Draft -> Pending -> Approved/Rejected).
+   - **Justification:** Manages the lifecycle of Instructure Grade Submissions (Draft -> Pending -> Approved/Rejected).
    - **Benefits:** Eliminates massive `if/else` conditional blocks. Submissions automatically alter their behavior and transition based on their internal state.
 
 7. **Template Method Pattern**
@@ -55,7 +55,7 @@ A comprehensive Python-based university enrollment system demonstrating advanced
 The system is decoupled into logical tiers:
 - **Models:** Domain objects representing Users and Courses.
 - **Patterns:** Core behavioral and structural GoF design pattern implementations.
-- **Services:** High-level business logic orchestrating the domain (Student, Faculty, Admin, Notification Services).
+- **Services:** High-level business logic orchestrating the domain (Student, Instructure, Admin, Notification Services).
 - **API Layer (`api.py`):** Flask REST API exposing the core engine to web clients.
 - **Frontend (`frontend/`):** A modern, responsive HTML/JS interface hooked to the API.
 
@@ -67,7 +67,7 @@ NexusEnroll/
 ├── api.py                      # RESTful Flask API backend
 ├── requirements.txt            # Python dependencies
 ├── models/
-│   ├── user.py                 # User classes (Student, Faculty, Administrator)
+│   ├── user.py                 # User classes (Student, Instructure, Administrator)
 │   └── course.py               # Course & Enrollment domain models
 ├── patterns/
 │   ├── factory.py              # Factory Method
@@ -79,7 +79,7 @@ NexusEnroll/
 │   └── template_method.py      # Template Method
 ├── services/
 │   ├── student_service.py      # Student business logic
-│   ├── faculty_service.py      # Faculty business logic
+│   ├── instructure_service.py      # Instructure business logic
 │   ├── admin_service.py        # Admin business logic
 │   └── notification_service.py # Notification service
 └── frontend/
@@ -125,8 +125,8 @@ Open your web browser and navigate to `http://localhost:8000` (or the port speci
 
 ## Key Features Demonstrated
 
-- **Interactive Role-Based Access:** Instantly swap between Student, Faculty, and Admin interfaces.
+- **Interactive Role-Based Access:** Instantly swap between Student, Instructure, and Admin interfaces.
 - **Real-Time Data Syncing:** Form submissions (like grading or capacity requests) flow perfectly from the UI into the backend GoF patterns.
 - **Granular Validations:** The Chain of Responsibility pattern silently protects the enrollment pipeline.
 - **Automated Alerts:** The Admin dashboard dynamically generates HTML warnings by computing raw capacity statistics in real-time.
-- **State-Driven Approvals:** Faculty can submit row-level grades that lock into a "Pending" State Pattern until explicitly approved by the Administration.
+- **State-Driven Approvals:** Instructure can submit row-level grades that lock into a "Pending" State Pattern until explicitly approved by the Administration.

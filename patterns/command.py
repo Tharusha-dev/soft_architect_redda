@@ -7,7 +7,7 @@ from collections import deque
 from models.course import Course, CourseOffering, EnrollmentRepository, Schedule, Enrollment, ScheduleEntry, RequestStatus
 
 # ---------------------------------------------------------
-# Command A: Faculty Course-Change Requests
+# Command A: Instructure Course-Change Requests
 # ---------------------------------------------------------
 class Command(ABC):
     """Abstract Command interface."""
@@ -67,10 +67,10 @@ class ChangeCapacityCommand(Command):
 
 class CourseChangeRequest:
     """Invoker for Course-Change Requests."""
-    def __init__(self, request_id: str, course_id: str, faculty_id: str, command: Command):
+    def __init__(self, request_id: str, course_id: str, instructure_id: str, command: Command):
         self.request_id = request_id
         self.course_id = course_id
-        self.faculty_id = faculty_id
+        self.instructure_id = instructure_id
         self.command = command
         self.status = RequestStatus.PENDING
 

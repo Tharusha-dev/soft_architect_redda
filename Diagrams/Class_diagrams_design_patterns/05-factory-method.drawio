@@ -28,13 +28,13 @@
           <mxGeometry y="38" width="280" height="24" as="geometry" />
         </mxCell>
 
-        <mxCell id="fc" value="FacultyCreator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="fc" value="InstructureCreator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="430" y="240" width="280" height="62" as="geometry" />
         </mxCell>
         <mxCell id="fc-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="fc">
           <mxGeometry y="30" width="280" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="fc-m1" value="+ createUser(details): User  (new Faculty)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fc">
+        <mxCell id="fc-m1" value="+ createUser(details): User  (new Instructure)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fc">
           <mxGeometry y="38" width="280" height="24" as="geometry" />
         </mxCell>
 
@@ -58,13 +58,13 @@
           <mxGeometry y="38" width="240" height="24" as="geometry" />
         </mxCell>
 
-        <mxCell id="fac" value="Faculty" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="fac" value="Instructure" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="450" y="420" width="240" height="62" as="geometry" />
         </mxCell>
         <mxCell id="fac-s1" style="line;strokeColor=inherit;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeWidth=1;" vertex="1" parent="fac">
           <mxGeometry y="30" width="240" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="fac-m1" value="+ getRole(): Role  (FACULTY)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fac">
+        <mxCell id="fac-m1" value="+ getRole(): Role  (INSTRUCTURE)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fac">
           <mxGeometry y="38" width="240" height="24" as="geometry" />
         </mxCell>
 

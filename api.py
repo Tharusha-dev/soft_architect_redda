@@ -5,12 +5,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from models.course import Course, CourseOffering, EnrollmentRepository, Schedule
 from models.user import UserDetails
-from patterns.factory import StudentCreator, FacultyCreator, AdministratorCreator
+from patterns.factory import StudentCreator, InstructureCreator, AdministratorCreator
 from patterns.command import ChangeCapacityCommand, CourseChangeRequest
 from services.notification_service import NotificationService
 from services.enrollment_service import EnrollmentService
 from services.student_service import StudentService
-from services.faculty_service import FacultyService
+from services.instructure_service import InstructureService
 from services.admin_service import AdminService
 from models.course import EnrollmentResult
 
@@ -19,7 +19,7 @@ CORS(app)
 
 # 1. Initialize Users
 student_creator = StudentCreator()
-faculty_creator = FacultyCreator()
+instructure_creator = InstructureCreator()
 admin_creator = AdministratorCreator()
 
 s1 = student_creator.registerUser(UserDetails("20261011", "Alex Johnson", "alex@nexus.edu"))
@@ -27,7 +27,7 @@ s2 = student_creator.registerUser(UserDetails("20261012", "Maria Garcia", "maria
 s3 = student_creator.registerUser(UserDetails("20261013", "James Smith", "james@nexus.edu"))
 s4 = student_creator.registerUser(UserDetails("20261014", "Linda Chen", "linda@nexus.edu"))
 
-f1 = faculty_creator.registerUser(UserDetails("F105", "Prof. Johnson", "johnson@nexus.edu"))
+f1 = instructure_creator.registerUser(UserDetails("F105", "Prof. Johnson", "johnson@nexus.edu"))
 
 # 2. Initialize Courses
 courses_data = [
@@ -67,7 +67,7 @@ for cid, offering in offerings.items():
     facades[cid] = es.get_facade()
 
 admin_service = AdminService()
-faculty_service = FacultyService()
+instructure_service = InstructureService()
 
 class APIStudentService:
     def enroll_in_course(self, student_id: str, course_id: str):
@@ -126,7 +126,7 @@ def get_state():
             "completedCourses": [{"id": get_course_code(k), "grade": v} for k, v in s1.completed_courses.items()],
             "enrolledCourses": [int(c) for c in s1.enrolled_courses]
         },
-        "faculty": {
+        "instructure": {
             "id": f1.id,
             "name": f1.name,
             "taughtCourses": [int(c) for c in f1.teaching_courses]
@@ -140,7 +140,7 @@ def get_state():
                 for req in admin_service.pending_course_requests
             ],
             "pending_grades": [
-                {"course_id": gs.course_id, "faculty_id": gs.faculty_id, "student_id": getattr(gs, 'student_id', None), "grade": getattr(gs, 'grade', None)}
+                {"course_id": gs.course_id, "instructure_id": gs.instructure_id, "student_id": getattr(gs, 'student_id', None), "grade": getattr(gs, 'grade', None)}
                 for gs in getattr(admin_service, 'pending_grades', [])
             ]
         }
@@ -160,15 +160,15 @@ def drop():
     api_student_service.drop_course(str(data.get('student_id')), str(data.get('course_id')))
     return jsonify({"status": "success", "message": f"Successfully dropped course {data.get('course_id')}"})
 
-@app.route('/api/faculty/grades/submit', methods=['POST'])
+@app.route('/api/instructure/grades/submit', methods=['POST'])
 def submit_grades():
     data = request.json
     course_id = str(data.get('course_id'))
-    faculty_id = str(data.get('faculty_id'))
+    instructure_id = str(data.get('instructure_id'))
     student_id = str(data.get('student_id'))
     grade = data.get('grade')
     
-    grade_sub = faculty_service.create_grade_submission(course_id, faculty_id)
+    grade_sub = instructure_service.create_grade_submission(course_id, instructure_id)
     grade_sub.edit()
     grade_sub.submit() # transitions to pending
     grade_sub.student_id = student_id
@@ -182,11 +182,11 @@ def submit_grades():
     
     return jsonify({"status": "success", "message": f"Grade {grade} for {student_id} submitted (State Pattern: Pending)."})
 
-@app.route('/api/faculty/change-capacity', methods=['POST'])
+@app.route('/api/instructure/change-capacity', methods=['POST'])
 def change_capacity():
     data = request.json
     course_id = str(data.get('course_id'))
-    faculty_id = str(data.get('faculty_id'))
+    instructure_id = str(data.get('instructure_id'))
     new_capacity = int(data.get('capacity', 0))
     
     course = next((c for c in courses_data if c.course_id == course_id), None)
@@ -195,9 +195,9 @@ def change_capacity():
     change_cmd = ChangeCapacityCommand(course, new_capacity)
     import uuid
     req_id = str(uuid.uuid4())[:8]
-    req = CourseChangeRequest(req_id, course_id, faculty_id, change_cmd)
+    req = CourseChangeRequest(req_id, course_id, instructure_id, change_cmd)
     
-    faculty_service.submit_course_change_request(req, admin_service)
+    instructure_service.submit_course_change_request(req, admin_service)
     return jsonify({"status": "success", "message": f"Command Pattern: Change request {req_id} sent to Admin."})
 
 @app.route('/api/admin/approve-request', methods=['POST'])
@@ -212,9 +212,9 @@ def approve_request():
 
 @app.route('/api/admin/reports', methods=['GET'])
 def get_reports():
-    from patterns.template_method import EnrollmentStatisticsReport, FacultyWorkloadReport, CoursePopularityReport
+    from patterns.template_method import EnrollmentStatisticsReport, InstructureWorkloadReport, CoursePopularityReport
     stats = EnrollmentStatisticsReport().generateReport().content
-    workload = FacultyWorkloadReport().generateReport().content
+    workload = InstructureWorkloadReport().generateReport().content
     popularity = CoursePopularityReport().generateReport().content
     
     return jsonify({
