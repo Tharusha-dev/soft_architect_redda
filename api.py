@@ -12,6 +12,7 @@ from services.enrollment_service import EnrollmentService
 from services.student_service import StudentService
 from services.instructure_service import InstructureService
 from services.admin_service import AdminService
+from patterns.facade import EnrollmentFacade
 from models.course import EnrollmentResult
 
 app = Flask(__name__)
@@ -61,6 +62,19 @@ offerings["5"].enrolled_count = 95
 notification_service = NotificationService()
 event_publisher = notification_service.get_publisher()
 
+notifications_db = []
+class APINotificationObserver:
+    def update(self, event):
+        notifications_db.insert(0, {"type": event.type, "payload": event.payload, "timestamp": "Just now"})
+
+event_publisher.subscribe(APINotificationObserver())
+
+@app.route('/api/notifications/<user_id>', methods=['GET'])
+def get_notifications(user_id):
+    user_notifs = [n for n in notifications_db if str(n['payload'].get('student_id')) == str(user_id) or str(n['payload'].get('instructure_id')) == str(user_id)]
+    return jsonify(user_notifs)
+
+
 
 class DummyCourseRepo:
     def get(self, cid):
@@ -81,6 +95,15 @@ for cid, offering in offerings.items():
 
 admin_service = AdminService()
 instructure_service = InstructureService()
+
+# Populate Admin Service Memory
+for u in [s1, s2, s3, s4, f1]:
+    admin_service.add_user(u)
+for c in courses_data:
+    admin_service.create_course(c)
+from models.course import DegreeProgram
+admin_service.define_program(DegreeProgram("CS-BS", "BSc Computer Science", 120, []))
+
 
 class APIStudentService:
     def enroll_in_course(self, student_id: str, course_id: str):
@@ -130,7 +153,8 @@ def get_state():
             "id": s1.id,
             "name": s1.name,
             "completedCourses": [{"id": get_course_code(k), "grade": v} for k, v in s1.completed_courses.items()],
-            "enrolledCourses": [int(c) for c in s1.enrolled_courses]
+            "enrolledCourses": [int(c) for c in s1.enrolled_courses],
+            "waitlistedCourses": [int(c.course_id) for c in courses_data if s1.id in offerings[c.course_id].waitlist]
         },
         "instructure": {
             "id": f1.id,
@@ -141,6 +165,9 @@ def get_state():
             {"id": s.id, "name": s.name, "completedCourses": {get_course_code(k): v for k, v in s.completed_courses.items()}} for s in [s1, s2, s3, s4]
         ],
         "admin": {
+            "courses": [{"id": c.course_id, "name": c.name} for c in admin_service.courses],
+            "users": [{"id": u.id, "name": u._name, "active": u.is_active} for u in admin_service.users],
+            "programs": [{"id": p.id, "name": p.name} for p in admin_service.programs],
             "pending_requests": [
                 {"id": req.request_id, "course_id": req.course_id} 
                 for req in admin_service.pending_course_requests
@@ -273,3 +300,78 @@ def edit_course():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, use_reloader=False)
+
+@app.route('/api/admin/courses', methods=['POST'])
+def add_course():
+    data = request.json
+    c = Course(str(data['id']), data['name'], data['desc'], data['instructor'], int(data['capacity']), data['schedule'])
+    admin_service.create_course(c)
+    courses_data.append(c)
+    offerings[c.course_id] = CourseOffering(c.course_id, c.capacity)
+    facades[c.course_id] = EnrollmentFacade(event_publisher, offerings[c.course_id], repository, schedule, course_repo, user_repo, offerings)
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin/users/deactivate', methods=['POST'])
+def deactivate_user_api():
+    uid = request.json['id']
+    admin_service.deactivate_user(str(uid))
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin/programs', methods=['POST'])
+def add_program():
+    data = request.json
+    from models.course import DegreeProgram
+    admin_service.define_program(DegreeProgram(data['id'], data['name'], 120, []))
+    return jsonify({"status": "success"})
+
+@app.route('/api/instructure/change-desc', methods=['POST'])
+def change_desc():
+    data = request.json
+    from patterns.command import UpdateDescriptionCommand, CourseChangeRequest
+    import uuid
+    course = next((c for c in courses_data if c.course_id == str(data['course_id'])), None)
+    req = CourseChangeRequest(str(uuid.uuid4())[:8], course.course_id, data['instructure_id'], UpdateDescriptionCommand(course, data['desc']))
+    instructure_service.submit_course_change_request(req, admin_service)
+    return jsonify({"status": "success"})
+
+@app.route('/api/instructure/change-prereq', methods=['POST'])
+def change_prereq():
+    data = request.json
+    from patterns.command import AddPrerequisiteCommand, CourseChangeRequest
+    import uuid
+    course = next((c for c in courses_data if c.course_id == str(data['course_id'])), None)
+    prereq_course = next((c for c in courses_data if c.course_id == str(data['prereq_id'])), None)
+    if prereq_course:
+        req = CourseChangeRequest(str(uuid.uuid4())[:8], course.course_id, data['instructure_id'], AddPrerequisiteCommand(course, prereq_course))
+        instructure_service.submit_course_change_request(req, admin_service)
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin/users/add', methods=['POST'])
+def add_user_api():
+    data = request.json
+    role = data.get('role', 'student')
+    if role == 'student':
+        u = student_creator.registerUser(UserDetails(data['id'], data['name'], data['id']+"@nexus.edu"))
+    else:
+        u = instructure_creator.registerUser(UserDetails(data['id'], data['name'], data['id']+"@nexus.edu"))
+    admin_service.add_user(u)
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin/users/edit', methods=['POST'])
+def edit_user_api():
+    data = request.json
+    uid = data['id']
+    for u in admin_service.users:
+        if u.id == uid:
+            u._name = data['name']
+    return jsonify({"status": "success"})
+    
+@app.route('/api/admin/courses/edit', methods=['POST'])
+def edit_course_api():
+    data = request.json
+    cid = data['id']
+    for c in admin_service.courses:
+        if c.course_id == cid:
+            c.name = data['name']
+            c.capacity = int(data['capacity'])
+    return jsonify({"status": "success"})

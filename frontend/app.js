@@ -1,3 +1,108 @@
+
+// --- CUSTOM UI MODALS ---
+function uiAlert(msg) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);';
+        const box = document.createElement('div');
+        box.className = 'glass-card';
+        box.style.cssText = 'background:var(--card-bg);padding:2rem;border-radius:1rem;min-width:300px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2);max-width:80%;max-height:80%;overflow-y:auto;';
+        
+        const text = document.createElement('div');
+        text.style.whiteSpace = 'pre-wrap';
+        text.textContent = msg;
+        text.style.marginBottom = '1.5rem';
+        
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary';
+        btn.textContent = 'OK';
+        btn.onclick = () => { overlay.remove(); resolve(); };
+        
+        box.appendChild(text);
+        box.appendChild(btn);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        btn.focus();
+    });
+}
+
+function uiConfirm(msg) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);';
+        const box = document.createElement('div');
+        box.className = 'glass-card';
+        box.style.cssText = 'background:var(--card-bg);padding:2rem;border-radius:1rem;min-width:300px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2);';
+        
+        const text = document.createElement('div');
+        text.style.marginBottom = '1.5rem';
+        text.textContent = msg;
+        
+        const btnContainer = document.createElement('div');
+        btnContainer.style.cssText = 'display:flex;gap:1rem;justify-content:center;';
+        
+        const yesBtn = document.createElement('button');
+        yesBtn.className = 'btn btn-danger';
+        yesBtn.textContent = 'Confirm';
+        yesBtn.onclick = () => { overlay.remove(); resolve(true); };
+        
+        const noBtn = document.createElement('button');
+        noBtn.className = 'btn btn-secondary';
+        noBtn.textContent = 'Cancel';
+        noBtn.onclick = () => { overlay.remove(); resolve(false); };
+        
+        btnContainer.appendChild(yesBtn);
+        btnContainer.appendChild(noBtn);
+        box.appendChild(text);
+        box.appendChild(btnContainer);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    });
+}
+
+function uiPrompt(msg, defaultVal='') {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);';
+        const box = document.createElement('div');
+        box.className = 'glass-card';
+        box.style.cssText = 'background:var(--card-bg);padding:2rem;border-radius:1rem;min-width:300px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2);';
+        
+        const text = document.createElement('div');
+        text.style.marginBottom = '1rem';
+        text.textContent = msg;
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'search-input';
+        input.value = defaultVal || '';
+        input.style.marginBottom = '1.5rem';
+        input.style.width = '100%';
+        
+        const btnContainer = document.createElement('div');
+        btnContainer.style.cssText = 'display:flex;gap:1rem;justify-content:center;';
+        
+        const yesBtn = document.createElement('button');
+        yesBtn.className = 'btn btn-primary';
+        yesBtn.textContent = 'Submit';
+        yesBtn.onclick = () => { overlay.remove(); resolve(input.value); };
+        
+        const noBtn = document.createElement('button');
+        noBtn.className = 'btn btn-secondary';
+        noBtn.textContent = 'Cancel';
+        noBtn.onclick = () => { overlay.remove(); resolve(null); };
+        
+        btnContainer.appendChild(yesBtn);
+        btnContainer.appendChild(noBtn);
+        box.appendChild(text);
+        box.appendChild(input);
+        box.appendChild(btnContainer);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        input.focus();
+    });
+}
+
 // Data will be fetched from API
 let db = {};
 
@@ -120,8 +225,11 @@ function renderView() {
         else if (currentView === 'grading') renderInstructureGrading();
     } else if (currentRole === 'admin') {
         if (currentView === 'dashboard') renderAdminDashboard();
-        else if (currentView === 'courses') renderAdminCourses();
+        else if (currentView === 'courses') renderAdminCoursesCRUD();
         else if (currentView === 'reports') renderAdminReports();
+        else if (currentView === 'admin_users') renderAdminUsers();
+        else if (currentView === 'admin_courses') renderAdminCoursesCRUD();
+        else if (currentView === 'admin_programs') renderAdminPrograms();
     }
 }
 
@@ -306,9 +414,22 @@ function renderStudentProgress() {
                     <div class="stat-value">${gpa}</div>
                 </div>
             </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: #FEF3C7; color: #D97706;"><i class="fa-solid fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3>Waitlisted</h3>
+                    <div class="stat-value">${db.student.waitlistedCourses ? db.student.waitlistedCourses.length : 0}</div>
+                </div>
+            </div>
         </div>
 
-        <div class="mb-6">
+        <div class="mb-6 mt-6">
+            <h3 class="section-title">Past Semester Schedules</h3>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">No past semesters found in DB.</p>
+            <p style="color: var(--text-muted); font-size: 0.875rem;"><i>Note: The backend maintains completed courses, but lacks full historical semester block storage.</i></p>
+        </div>
+
+        <div class="mb-6 mt-6">
             <h3 class="section-title">Completed Courses</h3>
         </div>
         <div class="data-table-container">
@@ -358,9 +479,11 @@ function renderInstructureClasses() {
                     </div>
                 </div>
                 
-                <div style="display: flex; gap: 0.5rem;">
-                    <button class="btn btn-primary" style="flex:1;" onclick="currentView='roster'; renderNav(); renderView();">View Roster</button>
-                    <button class="btn btn-outline" style="flex:1;" onclick="requestCapacityChange('${course.id}')">Request Capacity Change</button>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" style="flex:1; min-width: 120px;" onclick="currentView='roster'; renderNav(); renderView();">View Roster</button>
+                    <button class="btn btn-outline" style="flex:1; min-width: 120px;" onclick="requestCapacityChange('${course.id}')">Req Capacity</button>
+                    <button class="btn btn-outline" style="flex:1; min-width: 120px;" onclick="requestDescChange('${course.id}')">Req Desc Change</button>
+                    <button class="btn btn-outline" style="flex:1; min-width: 120px;" onclick="requestPrereqChange('${course.id}')">Add Prerequisite</button>
                 </div>
             </div>
         `;
@@ -490,7 +613,7 @@ async function submitSingleGrade(studentId, courseId) {
 }
 
 async function requestCapacityChange(courseId) {
-    const newCap = prompt("Enter new capacity for this course:");
+    const newCap = await uiPrompt("Enter new capacity for this course:");
     if (!newCap || isNaN(newCap)) return;
     
     showToast('Sending Course Change Request Command...', 'warning');
@@ -579,6 +702,17 @@ function renderAdminDashboard() {
                 <div class="stat-info">
                     <h3>System Load</h3>
                     <div class="stat-value">${sysLoad}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-cards" style="grid-template-columns: 1fr; margin-bottom: 2rem;">
+            <div class="glass-card">
+                <h3 class="section-title">Admin CRUD Dashboards</h3>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="currentView='admin_programs'; renderNav(); renderView();">Degree Programs (${db.admin.programs ? db.admin.programs.length : 0})</button>
+                    <button class="btn btn-secondary" onclick="currentView='admin_users'; renderNav(); renderView();">Manage Users (${db.admin.users ? db.admin.users.length : 0})</button>
+                    <button class="btn btn-secondary" onclick="currentView='admin_courses'; renderNav(); renderView();">Manage Courses (${db.admin.courses ? db.admin.courses.length : 0})</button>
                 </div>
             </div>
         </div>
@@ -720,33 +854,44 @@ function renderAdminReports() {
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-chart-line" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Enrolment Trends</h4>
-                <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Analyze enrolment data across departments and semesters.</p>
                 <button class="btn btn-primary" onclick="generateReport('stats')">Generate Report</button>
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-user-graduate" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Instructure Workload</h4>
-                <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Review course assignments and credit hours per instructure.</p>
                 <button class="btn btn-primary" onclick="generateReport('workload')">Generate Report</button>
             </div>
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem;">
                 <i class="fa-solid fa-fire" style="font-size: 3rem; color: var(--warning); margin-bottom: 1rem;"></i>
                 <h4 style="margin-bottom: 0.5rem;">Course Popularity</h4>
-                <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Identify high-demand courses for resource allocation.</p>
                 <button class="btn btn-primary" onclick="generateReport('popularity')">Generate Report</button>
             </div>
+        </div>
+        
+        <div id="report-output-container" class="glass-card" style="margin-top: 2rem; display: none;">
+            <h3 class="section-title" id="report-title">Report Title</h3>
+            <pre id="report-content" style="background: var(--bg-color); padding: 1.5rem; border-radius: 0.5rem; white-space: pre-wrap; font-family: monospace; border-left: 4px solid var(--primary);"></pre>
         </div>
     `;
 }
 
 async function generateReport(type) {
-    showToast('Generating report via Template Method...', 'warning');
+    showToast('Generating report...', 'warning');
     const res = await fetch('http://localhost:5000/api/admin/reports');
     const data = await res.json();
     
-    if (type === 'stats') alert(data.stats);
-    if (type === 'workload') alert(data.workload);
-    if (type === 'popularity') alert(data.popularity);
+    document.getElementById('report-output-container').style.display = 'block';
+    
+    if (type === 'stats') {
+        document.getElementById('report-title').innerText = "Enrolment Trends";
+        document.getElementById('report-content').innerText = data.stats;
+    } else if (type === 'workload') {
+        document.getElementById('report-title').innerText = "Instructure Workload";
+        document.getElementById('report-content').innerText = data.workload;
+    } else if (type === 'popularity') {
+        document.getElementById('report-title').innerText = "Course Popularity";
+        document.getElementById('report-content').innerText = data.popularity;
+    }
 }
 
 
@@ -786,3 +931,250 @@ function showToast(message, type = 'success') {
 
 // Start App
 document.addEventListener('DOMContentLoaded', init);
+
+async function showNotifications() {
+    let uid = state.role === 'student' ? state.student.id : (state.role === 'instructure' ? state.instructure.id : 'admin');
+    const res = await fetch(`${API_URL}/notifications/${uid}`);
+    const notifs = await res.json();
+    let msg = notifs.length ? notifs.map(n => `[${n.type}] ${JSON.stringify(n.payload)}`).join('\n') : "No notifications.";
+    await uiAlert(msg);
+}
+
+async function submitDescRequest() {
+    const courseId = document.getElementById('change-course-id').value;
+    const desc = document.getElementById('change-desc').value;
+    await fetch(`${API_URL}/instructure/change-desc`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instructure_id: state.instructure.id, course_id: courseId, desc: desc })
+    });
+    await uiAlert("Description Update Request Sent!");
+    fetchState();
+}
+async function submitPrereqRequest() {
+    const courseId = document.getElementById('change-course-id').value;
+    const prereq = document.getElementById('change-prereq').value;
+    await fetch(`${API_URL}/instructure/change-prereq`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instructure_id: state.instructure.id, course_id: courseId, prereq_id: prereq })
+    });
+    await uiAlert("Prerequisite Update Request Sent!");
+    fetchState();
+}
+
+async function requestDescChange(courseId) {
+    const desc = await uiPrompt("Enter new description:");
+    if(!desc) return;
+    await fetch(`${API_URL}/instructure/change-desc`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instructure_id: db.instructure.id, course_id: courseId, desc: desc })
+    });
+    await uiAlert("Description Update Request Sent!");
+    fetchState();
+}
+
+async function requestPrereqChange(courseId) {
+    const prereq = await uiPrompt("Enter prerequisite course ID:");
+    if(!prereq) return;
+    await fetch(`${API_URL}/instructure/change-prereq`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instructure_id: db.instructure.id, course_id: courseId, prereq_id: prereq })
+    });
+    await uiAlert("Prerequisite Update Request Sent!");
+    fetchState();
+}
+
+async function managePrograms() {
+    const name = prompt("Enter new Degree Program Name:");
+    if(!name) return;
+    const id = prompt("Enter Program ID (e.g., CS-BS):");
+    if(!id) return;
+    
+    await fetch(`${API_URL}/admin/programs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, name: name })
+    });
+    alert("Degree Program Created!");
+    fetchState();
+}
+
+async function manageUsers() {
+    const action = prompt("Type 'deactivate' to deactivate a user:");
+    if(action !== 'deactivate') return;
+    const uid = prompt("Enter User ID to deactivate:");
+    if(!uid) return;
+    
+    await fetch(`${API_URL}/admin/users/deactivate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: uid })
+    });
+    alert("User Deactivated!");
+    fetchState();
+}
+
+async function manageCourses() {
+    const name = prompt("Enter new Course Name (e.g. Intro to Databases):");
+    if(!name) return;
+    const id = prompt("Enter Course ID (e.g. 6):");
+    if(!id) return;
+    const capacity = prompt("Enter Capacity:");
+    if(!capacity) return;
+    
+    await fetch(`${API_URL}/admin/courses`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, name: name, desc: name, instructor: 'Staff', capacity: parseInt(capacity), schedule: 'TBD' })
+    });
+    alert("Course Created!");
+    fetchState();
+}
+
+function renderAdminUsers() {
+    let rows = db.admin.users.map(u => `
+        <tr>
+            <td>${u.id}</td>
+            <td>${u.name}</td>
+            <td><span class="status-badge ${u.active ? 'status-success' : 'status-danger'}">${u.active ? 'Active' : 'Deactivated'}</span></td>
+            <td>
+                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editUserUI('${u.id}', '${u.name}')">Edit</button>
+                ${u.active ? `<button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deactivateUserUI('${u.id}')">Deactivate</button>` : ''}
+            </td>
+        </tr>
+    `).join('');
+
+    viewContainer.innerHTML = `
+        <div class="mb-6" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="section-title">Manage Users</h3>
+            <button class="btn btn-secondary" onclick="currentView='dashboard'; renderNav(); renderView();">Back to Dashboard</button>
+        </div>
+        
+        <div class="glass-card mb-6">
+            <h3>Add New User</h3>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <input type="text" id="add-uid" class="search-input" placeholder="User ID">
+                <input type="text" id="add-uname" class="search-input" placeholder="Full Name">
+                <select id="add-urole" class="search-input"><option value="student">Student</option><option value="instructure">Instructure</option></select>
+                <button class="btn btn-primary" onclick="addUserUI()">Create User</button>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+async function addUserUI() {
+    const id = document.getElementById('add-uid').value;
+    const name = document.getElementById('add-uname').value;
+    const role = document.getElementById('add-urole').value;
+    if(!id || !name) return await uiAlert("Fill fields");
+    await fetch(`${API_URL}/admin/users/add`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, name, role}) });
+    await fetchState(); renderView();
+}
+async function editUserUI(id, oldName) {
+    const name = await uiPrompt("Enter new name for " + id + ":", oldName);
+    if(!name) return;
+    await fetch(`${API_URL}/admin/users/edit`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, name}) });
+    await fetchState(); renderView();
+}
+async function deactivateUserUI(id) {
+    if(!await uiConfirm("Deactivate " + id + "?")) return;
+    await fetch(`${API_URL}/admin/users/deactivate`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id}) });
+    await fetchState(); renderView();
+}
+
+function renderAdminCoursesCRUD() {
+    let rows = db.admin.courses.map(c => `
+        <tr>
+            <td>${c.id}</td>
+            <td>${c.name}</td>
+            <td>
+                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editCourseUI('${c.id}', '${c.name}')">Edit</button>
+            </td>
+        </tr>
+    `).join('');
+
+    viewContainer.innerHTML = `
+        <div class="mb-6" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="section-title">Manage Courses</h3>
+            <button class="btn btn-secondary" onclick="currentView='dashboard'; renderNav(); renderView();">Back to Dashboard</button>
+        </div>
+        
+        <div class="glass-card mb-6">
+            <h3>Add New Course</h3>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                <input type="text" id="add-cid" class="search-input" placeholder="Course ID (e.g. 6)">
+                <input type="text" id="add-cname" class="search-input" placeholder="Course Name">
+                <input type="number" id="add-ccap" class="search-input" placeholder="Capacity">
+                <button class="btn btn-primary" onclick="addCourseUI()">Create Course</button>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead><tr><th>ID</th><th>Name</th><th>Actions</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+async function addCourseUI() {
+    const id = document.getElementById('add-cid').value;
+    const name = document.getElementById('add-cname').value;
+    const cap = document.getElementById('add-ccap').value;
+    if(!id || !name || !cap) return await uiAlert("Fill fields");
+    await fetch(`${API_URL}/admin/courses`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, name, desc: name, instructor: 'Staff', capacity: parseInt(cap), schedule: 'TBD'}) });
+    await fetchState(); renderView();
+}
+async function editCourseUI(id, oldName) {
+    const name = await uiPrompt("Enter new name for " + id + ":", oldName);
+    const cap = await uiPrompt("Enter new capacity:");
+    if(!name || !cap) return;
+    await fetch(`${API_URL}/admin/courses/edit`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, name, capacity: cap}) });
+    await fetchState(); renderView();
+}
+
+function renderAdminPrograms() {
+    let rows = db.admin.programs.map(p => `
+        <tr><td>${p.id}</td><td>${p.name}</td></tr>
+    `).join('');
+    viewContainer.innerHTML = `
+        <div class="mb-6" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="section-title">Degree Programs</h3>
+            <button class="btn btn-secondary" onclick="currentView='dashboard'; renderNav(); renderView();">Back to Dashboard</button>
+        </div>
+        
+        <div class="glass-card mb-6">
+            <h3>Add New Program</h3>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <input type="text" id="add-pid" class="search-input" placeholder="Program ID">
+                <input type="text" id="add-pname" class="search-input" placeholder="Program Name">
+                <button class="btn btn-primary" onclick="addProgramUI()">Create Program</button>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead><tr><th>ID</th><th>Name</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+async function addProgramUI() {
+    const id = document.getElementById('add-pid').value;
+    const name = document.getElementById('add-pname').value;
+    if(!id || !name) return await uiAlert("Fill fields");
+    await fetch(`${API_URL}/admin/programs`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, name}) });
+    await fetchState(); renderView();
+}
