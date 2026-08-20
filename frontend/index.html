@@ -24,22 +24,45 @@
     <!-- Login Container -->
     <div id="login-container" class="login-container">
         <div class="login-card">
-            <h2 class="text-center" style="color: var(--primary); margin-bottom: 0.25rem;">NexusEnroll</h2>
-            <p class="text-center" style="color: #64748b; font-size: 0.875rem; margin-bottom: 2rem;">University Course Enrolment System</p>
-            
-            <h3 style="color: var(--primary); margin-bottom: 1rem;">Sign in as</h3>
-            
-            <div class="role-radios" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                <label><input type="radio" name="loginRole" value="student" checked onchange="updateLoginDropdown()"> Student</label>
-                <label><input type="radio" name="loginRole" value="instructure" onchange="updateLoginDropdown()"> Faculty</label>
-                <label><input type="radio" name="loginRole" value="admin" onchange="updateLoginDropdown()"> Administrator</label>
+            <div class="login-logo-wrapper">
+                <div class="login-logo">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2>Welcome to NexusEnroll</h2>
+                <p>University Course Enrolment System</p>
             </div>
             
-            <div class="form-group" style="margin-bottom: 1.5rem;">
-                <label style="display: block; font-size: 0.875rem; color: #475569; margin-bottom: 0.5rem;">Choose an existing account</label>
-                <select id="login-user-select" class="form-control" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;"></select>
-                <button class="btn btn-primary" style="width: 100%;" onclick="performLogin()">Log In</button>
+            <div class="role-selector-container">
+                <h3>
+                    <i class="fa-solid fa-user-shield"></i> Select Role
+                </h3>
+                <div class="role-radios">
+                    <label class="role-option">
+                        <input type="radio" name="loginRole" value="student" checked onchange="updateLoginDropdown()">
+                        <span class="role-badge">Student</span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="loginRole" value="instructure" onchange="updateLoginDropdown()">
+                        <span class="role-badge">Faculty</span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="loginRole" value="admin" onchange="updateLoginDropdown()">
+                        <span class="role-badge">Admin</span>
+                    </label>
+                </div>
             </div>
+            
+            <div class="form-group login-form-group">
+                <label>Choose Account</label>
+                <div class="select-wrapper">
+                    <select id="login-user-select" class="form-control"></select>
+                    <i class="fa-solid fa-chevron-down select-icon"></i>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary login-btn" onclick="performLogin()">
+                Access Portal <i class="fa-solid fa-arrow-right"></i>
+            </button>
             
         </div>
     </div>
