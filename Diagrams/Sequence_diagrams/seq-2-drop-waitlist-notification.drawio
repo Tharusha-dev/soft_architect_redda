@@ -81,10 +81,7 @@
           <mxGeometry relative="1" as="geometry"><mxPoint x="1140" y="595" as="sourcePoint" /><mxPoint x="1300" y="595" as="targetPoint" /></mxGeometry>
         </mxCell>
 
-        <mxCell id="note1" value="Observer (02) via publish–subscribe: enrolment code only publishes events — it never references recipients. The Notification Service reacts asynchronously; AdvisorObserver (critical-course drop) and AdminErrorObserver (system errors) subscribe identically and are added without changing enrolment logic." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="20" y="620" width="580" height="80" as="geometry" />
-        </mxCell>
-      </root>
+        </root>
     </mxGraphModel>
   </diagram>
 </mxfile>

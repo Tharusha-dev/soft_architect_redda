@@ -74,10 +74,6 @@
           <mxGeometry y="38" width="260" height="24" as="geometry" />
         </mxCell>
 
-        <mxCell id="note1" value="The Enrollment Service owns the EventPublisher; the observers are hosted by the Notification Service. Publish–subscribe over the event bus is the distributed realisation of the Observer pattern." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="40" y="240" width="310" height="90" as="geometry" />
-        </mxCell>
-
         <mxCell id="eAgg" value="observers  0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamondThin;startSize=16;startFill=0;endArrow=open;endSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ep" target="iobs">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>

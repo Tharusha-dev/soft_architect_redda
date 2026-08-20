@@ -173,9 +173,6 @@
             <mxPoint x="90" y="855" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="note1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" value="If a saga step fails inside run(), SagaOrchestrator calls compensate() on the completed steps in reverse order (Command 04-B) — all-or-nothing, no partial state remains. EnrollmentFacade (07) hides this orchestration from the controller; the chain order comes from diagram 01." vertex="1">
-          <mxGeometry height="80" width="580" x="20" y="940" as="geometry" />
-        </mxCell>
         <mxCell id="frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;pointerEvents=0;" value="alt" vertex="1">
           <mxGeometry height="560" width="1060" x="310" y="350" as="geometry" />
         </mxCell>

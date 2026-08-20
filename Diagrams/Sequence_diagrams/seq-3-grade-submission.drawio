@@ -82,10 +82,7 @@
           <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="660" as="sourcePoint" /><mxPoint x="1055" y="660" as="targetPoint" /></mxGeometry>
         </mxCell>
 
-        <mxCell id="note1" value="State (03): behaviour lives in the state objects — DraftState accepts submit(), PendingState accepts approve(), SubmittedState is final, so invalid transitions are structurally impossible. Assignment requires Pending → Submitted; Draft is a design addition. A release event then lets the Notification Service inform students." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="20" y="770" width="620" height="80" as="geometry" />
-        </mxCell>
-      </root>
+        </root>
     </mxGraphModel>
   </diagram>
 </mxfile>

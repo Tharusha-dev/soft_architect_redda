@@ -72,10 +72,6 @@
           <mxGeometry y="86" width="300" height="24" as="geometry" />
         </mxCell>
 
-        <mxCell id="note1" value="generateReport() is the fixed skeleton: collectData() → processData() → formatReport(). Subclasses vary only the steps. This use of inheritance is deliberate — the algorithm skeleton is genuinely fixed; composition is preferred elsewhere in NexusEnroll. Used by the Reporting Service for administrator reports." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="790" y="40" width="300" height="150" as="geometry" />
-        </mxCell>
-
         <mxCell id="g1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endSize=14;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="esr" target="rg">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
