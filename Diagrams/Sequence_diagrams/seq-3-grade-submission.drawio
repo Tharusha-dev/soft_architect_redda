@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-seq3" name="Sequence — Faculty Submits Grades (State)">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1180" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="l1" value="Faculty" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="GradesController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="180" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="GradeSubmission" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="340" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="DraftState" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="500" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="PendingState" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="660" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" value="AcademicRecordRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="820" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="l7" value="Administrator" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="980" y="40" width="150" height="720" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act2" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="250" y="115" width="10" height="560" as="geometry" /></mxCell>
+        <mxCell id="act3" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="410" y="150" width="10" height="510" as="geometry" /></mxCell>
+        <mxCell id="act4" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="570" y="265" width="10" height="45" as="geometry" /></mxCell>
+        <mxCell id="act5" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="730" y="485" width="10" height="45" as="geometry" /></mxCell>
+        <mxCell id="act6" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="890" y="555" width="10" height="42" as="geometry" /></mxCell>
+
+        <mxCell id="m1" value="POST /api/instructure/grades/submit" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="95" y="120" as="sourcePoint" /><mxPoint x="255" y="120" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="«create» GradeSubmission (state = DraftState)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="155" as="sourcePoint" /><mxPoint x="415" y="155" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="gs.edit()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="200" as="sourcePoint" /><mxPoint x="255" y="210" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="gs.submit()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="235" as="sourcePoint" /><mxPoint x="415" y="235" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="submit(ctx)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="270" as="sourcePoint" /><mxPoint x="575" y="270" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="ctx.setState(PendingState)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="575" y="305" as="sourcePoint" /><mxPoint x="415" y="305" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="status = Pending" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="340" as="sourcePoint" /><mxPoint x="255" y="340" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="pending approval" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="372" as="sourcePoint" /><mxPoint x="95" y="372" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="POST /api/admin/approve-grades" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1055" y="420" as="sourcePoint" /><mxPoint x="255" y="420" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="gs.approve()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="455" as="sourcePoint" /><mxPoint x="415" y="455" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="approve(ctx)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="490" as="sourcePoint" /><mxPoint x="735" y="490" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="ctx.setState(SubmittedState)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="735" y="525" as="sourcePoint" /><mxPoint x="415" y="525" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="update(student.completed_courses)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="560" as="sourcePoint" /><mxPoint x="895" y="560" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="persisted" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="895" y="592" as="sourcePoint" /><mxPoint x="415" y="592" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="status = Submitted" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="627" as="sourcePoint" /><mxPoint x="255" y="627" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m16" value="approved — grades released" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="660" as="sourcePoint" /><mxPoint x="1055" y="660" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="note1" value="State (03): behaviour lives in the state objects — DraftState accepts submit(), PendingState accepts approve(), SubmittedState is final, so invalid transitions are structurally impossible. Assignment requires Pending → Submitted; Draft is a design addition. A release event then lets the Notification Service inform students." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="770" width="620" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

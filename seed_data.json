@@ -1,0 +1,59 @@
+{
+  "users": [
+    {"id": "20261011", "name": "Alex Johnson", "email": "alex@nexus.edu", "role": "student", "completed_courses": {"CS101": "A"}},
+    {"id": "20261012", "name": "Maria Garcia", "email": "maria@nexus.edu", "role": "student", "completed_courses": {}},
+    {"id": "20261013", "name": "James Smith", "email": "james@nexus.edu", "role": "student", "completed_courses": {}},
+    {"id": "20261014", "name": "Linda Chen", "email": "linda@nexus.edu", "role": "student", "completed_courses": {}},
+    {"id": "F105", "name": "Prof. Johnson", "email": "johnson@nexus.edu", "role": "instructure", "teaching_courses": ["CS102"]},
+    {"id": "A001", "name": "System Administrator", "email": "admin@nexus.edu", "role": "admin"}
+  ],
+  "courses": [
+    {
+      "course_id": "CS101",
+      "name": "Intro to CS",
+      "description": "Python programming.",
+      "instructor_id": "F105",
+      "capacity": 2,
+      "schedule": "Mon 10:00 AM - 12:00 PM",
+      "department": "Computer Science",
+      "days": "Mon",
+      "start_time": "10:00",
+      "end_time": "12:00",
+      "prerequisites": []
+    },
+    {
+      "course_id": "CS102",
+      "name": "Data Structures",
+      "description": "Trees and graphs.",
+      "instructor_id": "F105",
+      "capacity": 40,
+      "schedule": "Wed 10:00 AM - 12:00 PM",
+      "department": "Computer Science",
+      "days": "Wed",
+      "start_time": "10:00",
+      "end_time": "12:00",
+      "prerequisites": ["CS101"]
+    },
+    {
+      "course_id": "CS103",
+      "name": "Database Management Systems",
+      "description": "Relational databases and SQL.",
+      "instructor_id": "F105",
+      "capacity": 60,
+      "schedule": "Fri 9:00 AM - 12:00 PM",
+      "department": "Computer Science",
+      "days": "Fri",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "prerequisites": ["CS101"]
+    }
+  ],
+  "programs": [
+    {
+      "id": "BSc_CS",
+      "name": "BSc in Computer Science",
+      "required_credits": 120,
+      "required_courses": ["CS101", "CS102", "CS103"]
+    }
+  ]
+}

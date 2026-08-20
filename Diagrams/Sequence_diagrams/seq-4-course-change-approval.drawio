@@ -1,0 +1,104 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-seq4" name="Sequence — Course-Change Request &amp; Approval (Command)">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1180" pageHeight="960" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="l1" value="Faculty" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="CourseController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="180" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="CourseChangeRequest" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="340" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="cmd: ChangeCapacityCommand" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="500" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="Course" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="660" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" value="CourseRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="820" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="l7" value="Administrator" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="980" y="40" width="150" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="frame" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="350" width="990" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="guard1" value="[approved]" style="text;html=1;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="352" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="divider" style="line;html=1;strokeWidth=1;fillColor=none;dashed=1;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="180" y="625" width="990" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="guard2" value="[rejected]" style="text;html=1;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="200" y="638" width="160" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act2" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="250" y="115" width="10" height="665" as="geometry" /></mxCell>
+        <mxCell id="act3" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="410" y="191" width="10" height="525" as="geometry" /></mxCell>
+        <mxCell id="act4" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="570" y="460" width="10" height="80" as="geometry" /></mxCell>
+        <mxCell id="act5" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="730" y="495" width="10" height="42" as="geometry" /></mxCell>
+        <mxCell id="act6" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="890" y="561" width="10" height="42" as="geometry" /></mxCell>
+
+        <mxCell id="m1" value="POST /api/instructure/change-capacity" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="95" y="120" as="sourcePoint" /><mxPoint x="255" y="120" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="«create» ChangeCapacityCommand(course, newCapacity)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="158" as="sourcePoint" /><mxPoint x="575" y="158" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="«create» CourseChangeRequest(command) — status = Pending" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="196" as="sourcePoint" /><mxPoint x="415" y="196" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="request submitted (Pending)" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="232" as="sourcePoint" /><mxPoint x="95" y="232" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="GET /api/admin/dashboard" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1055" y="285" as="sourcePoint" /><mxPoint x="255" y="285" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="request details" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="318" as="sourcePoint" /><mxPoint x="1055" y="318" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="POST /api/admin/approve-request" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1055" y="395" as="sourcePoint" /><mxPoint x="255" y="395" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="approve()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="430" as="sourcePoint" /><mxPoint x="415" y="430" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="execute()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="465" as="sourcePoint" /><mxPoint x="575" y="465" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="setCapacity(newCapacity)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="575" y="500" as="sourcePoint" /><mxPoint x="735" y="500" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="capacity updated" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="735" y="532" as="sourcePoint" /><mxPoint x="575" y="532" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="save(course); store command for audit" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="566" as="sourcePoint" /><mxPoint x="895" y="566" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="status = Applied" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="415" y="600" as="sourcePoint" /><mxPoint x="255" y="600" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="reject(requestId) [Core Only]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1055" y="672" as="sourcePoint" /><mxPoint x="255" y="672" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="reject() — status = Rejected" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="705" as="sourcePoint" /><mxPoint x="415" y="705" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m16" value="decision recorded; Faculty notified (event → Notification Service)" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="255" y="770" as="sourcePoint" /><mxPoint x="1055" y="770" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="note1" value="Command (04-A): the change is an object — created by Faculty, held Pending by the «invoker» CourseChangeRequest, executed on Course (receiver) only after Administrator approval; undo() enables reversal and stored commands form the audit log." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="890" width="620" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

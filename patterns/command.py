@@ -65,6 +65,21 @@ class ChangeCapacityCommand(Command):
         self.course.setCapacity(self.oldCapacity)
         print(f"Command undone: Course {self.course.course_id} capacity reverted to {self.oldCapacity}.")
 
+class ChangeScheduleCommand(Command):
+    """Concrete command to change course schedule."""
+    def __init__(self, course: Course, newSchedule: str):
+        self.course = course
+        self.newSchedule = newSchedule
+        self.oldSchedule = course.schedule
+        
+    def execute(self):
+        self.course.setSchedule(self.newSchedule)
+        print(f"Command executed: Course {self.course.course_id} schedule updated.")
+        
+    def undo(self):
+        self.course.setSchedule(self.oldSchedule)
+        print(f"Command undone: Course {self.course.course_id} schedule reverted.")
+
 class CourseChangeRequest:
     """Invoker for Course-Change Requests."""
     def __init__(self, request_id: str, course_id: str, instructure_id: str, command: Command):

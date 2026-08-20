@@ -32,6 +32,7 @@ class PrerequisiteValidator(EnrollmentValidator):
             for prereq in req.course.prerequisites:
                 if prereq not in req.student.completed_courses:
                     print(f"ValidationChain [Prerequisite]: Failed. Missing {prereq}.")
+                    req.error_message = f"Missing prerequisite: {prereq}"
                     return ValidationResult.FAILED
         print(f"ValidationChain [Prerequisite]: Passed.")
         return self.forward(req)
@@ -41,6 +42,7 @@ class CapacityValidator(EnrollmentValidator):
         if req.offering and req.course:
             if req.offering.enrolled_count >= req.course.capacity:
                 print(f"ValidationChain [Capacity]: Failed. Course is full.")
+                req.error_message = "Course is full. You have been added to the waitlist."
                 # addToWaitlist happens in facade
                 return ValidationResult.FAILED
         print(f"ValidationChain [Capacity]: Passed.")
@@ -53,6 +55,7 @@ class TimeConflictValidator(EnrollmentValidator):
             for sched in req.enrolled_schedules:
                 if check_time_conflict(req.course.schedule, sched):
                     print(f"ValidationChain [TimeConflict]: Failed. Conflict detected.")
+                    req.error_message = f"Time conflict with already enrolled course (Schedule: {sched})."
                     return ValidationResult.FAILED
         print(f"ValidationChain [TimeConflict]: Passed. No time conflict detected.")
         return self.forward(req)

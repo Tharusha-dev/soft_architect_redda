@@ -30,39 +30,51 @@ def main():
     print("      NexusEnroll System Initialization")
     print("="*80)
     
-    # 1. Users
+    import json
+
+    # 1. Users & Courses from seed_data.json
+    with open('seed_data.json', 'r') as f:
+        seed_data = json.load(f)
+
     student_creator = StudentCreator()
     instructure_creator = InstructureCreator()
     admin_creator = AdministratorCreator()
     
-    s1 = student_creator.registerUser(UserDetails("S001", "Alice Smith", "alice@nexus.edu"))
-    s2 = student_creator.registerUser(UserDetails("S002", "Bob Jones", "bob@nexus.edu"))
-    s3 = student_creator.registerUser(UserDetails("S003", "Charlie Brown", "charlie@nexus.edu"))
-    f1 = instructure_creator.registerUser(UserDetails("F001", "Prof. Alan Turing", "alan@nexus.edu"))
-    a1 = admin_creator.registerUser(UserDetails("A001", "Admin Grace", "grace@nexus.edu"))
-    
-    # Repositories
+    all_users = []
+    for u_data in seed_data['users']:
+        if u_data['role'] == 'student':
+            u = student_creator.registerUser(UserDetails(u_data['id'], u_data['name'], u_data['email']))
+            u.completed_courses = u_data.get('completed_courses', {})
+            all_users.append(u)
+        elif u_data['role'] == 'instructure':
+            u = instructure_creator.registerUser(UserDetails(u_data['id'], u_data['name'], u_data['email']))
+            all_users.append(u)
+        else:
+            u = admin_creator.registerUser(UserDetails(u_data['id'], u_data['name'], u_data['email']))
+            all_users.append(u)
+            
     course_repo = DummyCourseRepo()
     user_repo = DummyUserRepo()
-    user_repo.users.extend([s1, s2, s3, f1, a1])
+    user_repo.users.extend(all_users)
     
-    # 2. Courses
-    c1 = Course("CS101", "Intro to CS", "Python programming.", f1.id, 2, "Mon 10:00 AM - 12:00 PM")
-    c1.department = "Computer Science" # For browse use case
-    c2 = Course("CS102", "Data Structures", "Trees and graphs.", f1.id, 3, "Wed 10:00 AM - 12:00 PM")
-    c2.department = "Computer Science"
-    c2.prerequisites.append("CS101")
+    s1 = user_repo.get("20261011")
+    s2 = user_repo.get("20261012")
+    s3 = user_repo.get("20261013")
+    f1 = user_repo.get("F105")
+    a1 = user_repo.get("A001")
     
-    course_repo.courses.extend([c1, c2])
-    
-    offerings = {
-        "CS101": CourseOffering(c1.course_id, c1.capacity),
-        "CS102": CourseOffering(c2.course_id, c2.capacity)
-    }
-    
+    for c_data in seed_data['courses']:
+        c = Course(c_data['course_id'], c_data['name'], c_data['description'], c_data['instructor_id'], c_data['capacity'], c_data['schedule'], c_data.get('department', ''), c_data.get('days', ''), c_data.get('start_time', ''), c_data.get('end_time', ''))
+        c.prerequisites = c_data.get('prerequisites', [])
+        course_repo.courses.append(c)
+
+    offerings = {}
+    for c in course_repo.courses:
+        offerings[c.course_id] = CourseOffering(c.course_id, c.capacity)
+
     repository = EnrollmentRepository()
     schedule = Schedule()
-    
+
     # 3. Services
     notification_service = NotificationService()
     event_publisher = notification_service.get_publisher()
@@ -94,7 +106,7 @@ def main():
     print("\n[Use Case 1] Course Catalogue Browse")
     print("Requirement: A student wants to browse all computer science courses for the upcoming semester that a specific professor teaches.")
     print("-" * 80)
-    student_service.browse_courses("Computer Science", "F001")
+    student_service.browse_courses("Computer Science", "F105")
     
     print("\n[Use Case 2] Registration and Enrollment (Validation: Prereqs, Capacity, Time Conflict)")
     print("Requirement: A student attempts to enrol for a course. The system checks prerequisites, capacity, and time conflict.")
@@ -136,7 +148,13 @@ def main():
     print("\n[Use Case 5] Administrator Reporting")
     print("Requirement: An administrator needs to generate a report on all courses (e.g. over 90% capacity).")
     print("-" * 80)
-    admin_service.generate_reports()
+    admin_service.generate_reports(course_repo.courses, offerings)
+    
+    print("\nGenerating Parameterized High-Capacity Report (CS, >=50%):")
+    from patterns.template_method import HighCapacityReport
+    report_gen = HighCapacityReport("Computer Science", 50, course_repo.courses, offerings)
+    report = report_gen.generateReport()
+    print(report.content)
     
     print("\nSimulation Complete.\n")
 

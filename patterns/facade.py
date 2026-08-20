@@ -18,8 +18,8 @@ class EnrollmentFacade:
         self.user_repository = user_repository
         self.offerings = offerings
         
-    def enroll(self, studentId: str, offeringId: str) -> EnrollmentResult:
-        """Facade method to handle the enrollment workflow."""
+    def enroll(self, studentId: str, offeringId: str):
+        """Facade method to handle the enrollment workflow. Returns (EnrollmentResult, message)."""
         print(f"Facade: Attempting to enroll {studentId} in offering {offeringId}...")
         
         student = self.user_repository.get(studentId) if self.user_repository else None
@@ -40,7 +40,7 @@ class EnrollmentFacade:
             if self.offering and course and self.offering.enrolled_count >= course.capacity:
                 self.offering.addToWaitlist(studentId)
                 self.event_publisher.publish(EnrollmentEvent("WAITLIST_JOINED", {"student_id": studentId, "course_id": offeringId}))
-            return EnrollmentResult.FAILURE
+            return EnrollmentResult.FAILURE, getattr(req, 'error_message', "Validation failed.")
             
         # 2. Coordinate Persistence via Saga Orchestrator
         orchestrator = SagaOrchestrator()
@@ -50,9 +50,25 @@ class EnrollmentFacade:
         
         if not orchestrator.run():
             print("Facade: Saga transaction failed.")
-            return EnrollmentResult.FAILURE
+            return EnrollmentResult.FAILURE, "System error during transaction."
             
         # 3. Coordinate Event Publication
+        self.event_publisher.publish(EnrollmentEvent("ENROLLMENT_SUCCESS", {"student_id": studentId, "course_id": offeringId}))
+        return EnrollmentResult.SUCCESS, "Enrollment successful."
+
+    def force_enroll(self, studentId: str, offeringId: str) -> EnrollmentResult:
+        """Admin override facade method to bypass validation and force enrollment."""
+        print(f"Facade: Admin forcing enrollment for {studentId} into {offeringId}...")
+        orchestrator = SagaOrchestrator()
+        orchestrator.steps.append(CreateEnrollmentCommand(self.repository, Enrollment(studentId, offeringId)))
+        orchestrator.steps.append(UpdateScheduleCommand(self.schedule, ScheduleEntry(studentId, offeringId)))
+        
+        if not orchestrator.run():
+            return EnrollmentResult.FAILURE
+            
+        # We also manually increment enrolled_count on the offering without respecting capacity limit
+        self.offering.enrolled_count += 1
+        
         self.event_publisher.publish(EnrollmentEvent("ENROLLMENT_SUCCESS", {"student_id": studentId, "course_id": offeringId}))
         return EnrollmentResult.SUCCESS
 

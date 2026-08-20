@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-seq2" name="Sequence — Student Drops a Course, Waitlist Notification">
+    <mxGraphModel dx="1300" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="l1" value="Student" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="EnrollmentController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="170" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="EnrollmentFacade" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="Course Service" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="470" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="EnrollmentRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="620" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" value="EventPublisher" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="770" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l7" value="NotificationDispatcher" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="920" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l8" value="WaitlistObserver" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="40" width="140" height="660" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act2" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="235" y="115" width="10" height="290" as="geometry" /></mxCell>
+        <mxCell id="act3" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="385" y="153" width="10" height="220" as="geometry" /></mxCell>
+        <mxCell id="act4" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="535" y="191" width="10" height="42" as="geometry" /></mxCell>
+        <mxCell id="act5" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="685" y="258" width="10" height="42" as="geometry" /></mxCell>
+        <mxCell id="act6" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="835" y="325" width="10" height="135" as="geometry" /></mxCell>
+        <mxCell id="act7" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="985" y="440" width="10" height="55" as="geometry" /></mxCell>
+        <mxCell id="act8" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1135" y="480" width="10" height="125" as="geometry" /></mxCell>
+
+        <mxCell id="m1" value="POST /api/drop (studentId, courseId)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="90" y="120" as="sourcePoint" /><mxPoint x="240" y="120" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="drop(studentId, offeringId)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="240" y="158" as="sourcePoint" /><mxPoint x="390" y="158" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="releaseSeat(offeringId)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="196" as="sourcePoint" /><mxPoint x="540" y="196" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="seat released" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="540" y="228" as="sourcePoint" /><mxPoint x="390" y="228" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="delete(enrollment)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="263" as="sourcePoint" /><mxPoint x="690" y="263" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="deleted" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="690" y="295" as="sourcePoint" /><mxPoint x="390" y="295" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="publish(COURSE_DROPPED)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="330" as="sourcePoint" /><mxPoint x="840" y="330" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="DropResult.SUCCESS" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="365" as="sourcePoint" /><mxPoint x="240" y="365" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="drop confirmed" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="240" y="398" as="sourcePoint" /><mxPoint x="90" y="398" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="update(COURSE_DROPPED) (EventPublisher -&gt; Observers)" style="html=1;verticalAlign=bottom;endArrow=open;endSize=10;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="840" y="445" as="sourcePoint" /><mxPoint x="990" y="445" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="update(event)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="990" y="485" as="sourcePoint" /><mxPoint x="1140" y="485" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="select next waitlisted student; build Notification" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1140" y="520" as="sourcePoint" /><mxPoint x="1140" y="552" as="targetPoint" />
+            <Array as="points"><mxPoint x="1210" y="520" /><mxPoint x="1210" y="552" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="NotificationSender.send() → waitlisted student" style="html=1;verticalAlign=bottom;endArrow=open;endSize=10;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1140" y="595" as="sourcePoint" /><mxPoint x="1300" y="595" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="note1" value="Observer (02) via publish–subscribe: enrolment code only publishes events — it never references recipients. The Notification Service reacts asynchronously; AdvisorObserver (critical-course drop) and AdminErrorObserver (system errors) subscribe identically and are added without changing enrolment logic." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="620" width="580" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

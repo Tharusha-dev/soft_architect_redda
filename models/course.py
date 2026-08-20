@@ -55,6 +55,7 @@ class EnrollmentRequest:
         self.offering = offering
         self.schedule = schedule
         self.enrolled_schedules = enrolled_schedules or []
+        self.error_message = ""
 
 class Enrollment:
     def __init__(self, student_id: str, course_id: str):
@@ -63,14 +64,25 @@ class Enrollment:
 
 class Course:
     """Represents a course in NexusEnroll."""
-    def __init__(self, course_id: str, name: str, description: str, instructor_id: str, capacity: int, schedule: str):
+    def __init__(self, course_id: str, name: str, description: str, instructor_id: str, capacity: int, schedule: str, department: str = "", days: str = "", start_time: str = "", end_time: str = ""):
         self.course_id = course_id
         self.name = name
         self.description = description
         self.instructor_id = instructor_id
         self.capacity = capacity
         self.schedule = schedule
+        self.department = department
+        self.days = days
+        self.start_time = start_time
+        self.end_time = end_time
         self.prerequisites: List[str] = []
+        import datetime
+        self.schedule_history = [{"effective_date": "1970-01-01T00:00:00Z", "schedule": schedule}]
+        
+    def setSchedule(self, new_schedule: str):
+        import datetime
+        self.schedule = new_schedule
+        self.schedule_history.append({"effective_date": datetime.datetime.now().isoformat(), "schedule": new_schedule})
         
     def setDescription(self, d: str):
         self.description = d

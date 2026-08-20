@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" agent="drawio" version="24.7.7">
+  <diagram id="nx-seq5" name="Sequence — Administrator Generates a Report (Template Method)">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="l1" value="Administrator" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="170" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="ReportingController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="210" y="40" width="170" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="gen: InstructureWorkloadReport (ReportGenerator)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="170" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="Memory Database (courses_data, all_users)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="590" y="40" width="170" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="Course Service API" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="780" y="40" width="170" height="660" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act2" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="290" y="115" width="10" height="495" as="geometry" /></mxCell>
+        <mxCell id="act3" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="480" y="153" width="10" height="425" as="geometry" /></mxCell>
+        <mxCell id="act4" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="670" y="295" width="10" height="42" as="geometry" /></mxCell>
+        <mxCell id="act5" style="html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="860" y="362" width="10" height="42" as="geometry" /></mxCell>
+
+        <mxCell id="m1" value="GET /api/admin/reports" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="105" y="120" as="sourcePoint" /><mxPoint x="295" y="120" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="«create» InstructureWorkloadReport" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="295" y="158" as="sourcePoint" /><mxPoint x="485" y="158" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="generateReport()  {final}" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="295" y="196" as="sourcePoint" /><mxPoint x="485" y="196" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="collectData()" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="235" as="sourcePoint" /><mxPoint x="485" y="265" as="targetPoint" />
+            <Array as="points"><mxPoint x="555" y="235" /><mxPoint x="555" y="265" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="read courses_data and all_users" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="485" y="300" as="sourcePoint" /><mxPoint x="675" y="300" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="data returned" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="675" y="332" as="sourcePoint" /><mxPoint x="485" y="332" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <!-- removed m7 and m8 as it is redundant for memory -->
+        <mxCell id="m9" value="processData(d) — aggregate workload per faculty" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="435" as="sourcePoint" /><mxPoint x="485" y="465" as="targetPoint" />
+            <Array as="points"><mxPoint x="555" y="435" /><mxPoint x="555" y="465" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="formatReport(d)" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="500" as="sourcePoint" /><mxPoint x="485" y="530" as="targetPoint" />
+            <Array as="points"><mxPoint x="555" y="500" /><mxPoint x="555" y="530" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="Report" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="485" y="568" as="sourcePoint" /><mxPoint x="295" y="568" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="report delivered" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="295" y="600" as="sourcePoint" /><mxPoint x="105" y="600" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="note1" value="Template Method (06): generateReport() fixes the skeleton collectData → processData → formatReport; the concrete report overrides only the steps. EnrollmentStatisticsReport and CoursePopularityReport follow this same sequence with different data sources. Data access is read-only via service APIs (§4.3)." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=#B09500;size=14;align=left;verticalAlign=top;spacing=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="710" width="620" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

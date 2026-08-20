@@ -1,0 +1,104 @@
+<mxfile host="65bd71144e">
+    <diagram id="seq-manual-override" name="Manual Override (Sequence)">
+        <mxGraphModel dx="1320" dy="1125" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="L1" value="Admin" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="80" width="100" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="L2" value=":AdminOverrideAdapter" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="80" width="160" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="A2" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" parent="L2" vertex="1">
+                    <mxGeometry x="75" y="80" width="10" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="L3" value=":EnrollmentFacade" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="80" width="140" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="A3" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" parent="L3" vertex="1">
+                    <mxGeometry x="65" y="110" width="10" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="A3_2" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" parent="L3" vertex="1">
+                    <mxGeometry x="65" y="180" width="10" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="L4" value=":ValidationChain" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="80" width="120" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="A4" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" parent="L4" vertex="1">
+                    <mxGeometry x="55" y="130" width="10" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg1" value="overrideEnrollment(studentId, courseId)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="L1" target="A2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="150" y="160" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="270" y="160"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg2" value="enroll(request)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A2" target="A3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="390" y="190" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="490" y="190"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg3" value="validate(request) [bypassed]" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A3" target="A4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="620" y="210" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="700" y="210"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg4" value="return True" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A4" target="A3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="810" y="240" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="700" y="240"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="L5" value=":EnrollmentRepo" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="80" width="120" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="A5" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" parent="L5" vertex="1">
+                    <mxGeometry x="55" y="190" width="10" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg5" value="execute_transaction()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A3_2" target="A5" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="620" y="270" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="800" y="270"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg6" value="commit successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A5" target="A3_2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1010" y="300" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="800" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg7" value="EnrollmentResult(Success)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A3_2" target="A2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="320" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="490" y="320"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg8" value="Status: Overridden &amp; Enrolled" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="A2" target="L1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="380" y="350" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="270" y="350"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

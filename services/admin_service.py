@@ -51,7 +51,7 @@ class AdminService:
                 return
         print("AdminService: Request not found.")
         
-    def generate_reports(self):
+    def generate_reports(self, courses_data, offerings_data):
         """Generates structured reports."""
-        print(EnrollmentStatisticsReport().generateReport().content)
-        print(CoursePopularityReport().generateReport().content)
+        print(EnrollmentStatisticsReport(courses_data, offerings_data).generateReport().content)
+        print(CoursePopularityReport(courses_data, offerings_data).generateReport().content)
