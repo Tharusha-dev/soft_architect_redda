@@ -130,6 +130,12 @@ class APIStudentService:
             if str(course_id) in student.enrolled_courses:
                 student.enrolled_courses.remove(str(course_id))
 
+    def waitlist_course(self, student_id: str, course_id: str):
+        facade = facades.get(str(course_id))
+        if not facade:
+            return EnrollmentResult.FAILURE, "Course not found."
+        return facade.waitlist(student_id, str(course_id))
+
 api_student_service = APIStudentService()
 
 @app.route('/api/state', methods=['GET'])
@@ -154,10 +160,12 @@ def get_state():
         
     instructure_data = None
     if current_user and hasattr(current_user, 'teaching_courses'):
+        # Dynamically compute courses taught by this instructor
+        taught_course_ids = [c.course_id for c in courses_data if str(c.instructor_id) == str(current_user.id)]
         instructure_data = {
             "id": current_user.id,
             "name": current_user._name,
-            "taughtCourses": current_user.teaching_courses
+            "taughtCourses": taught_course_ids
         }
 
     students_list = [
@@ -257,6 +265,14 @@ def drop():
     data = request.json
     api_student_service.drop_course(str(data.get('student_id')), str(data.get('course_id')))
     return jsonify({"status": "success", "message": f"Successfully dropped course {data.get('course_id')}"})
+
+@app.route('/api/waitlist', methods=['POST'])
+def waitlist():
+    data = request.json
+    result, msg = api_student_service.waitlist_course(str(data.get('student_id')), str(data.get('course_id')))
+    if result.name == 'SUCCESS':
+        return jsonify({"status": "success", "message": f"Successfully joined waitlist for course {data.get('course_id')}"})
+    return jsonify({"status": "error", "message": msg}), 400
 
 @app.route('/api/instructure/grades/submit', methods=['POST'])
 def submit_grades():

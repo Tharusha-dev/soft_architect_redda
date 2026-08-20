@@ -13,10 +13,17 @@ class NotificationObserver(ABC):
 
 class WaitlistObserver(NotificationObserver):
     """Concrete observer for waitlist notifications."""
+    def __init__(self, publisher=None):
+        self.publisher = publisher
+
     def update(self, event: EnrollmentEvent):
         if event.type == "COURSE_DROPPED":
             course_id = event.payload.get("course_id")
+            waitlist = event.payload.get("waitlist", [])
             print(f"[Notification - WaitlistObserver] A seat has opened up in {course_id}! Alerting waitlist...")
+            if self.publisher:
+                for student_id in waitlist:
+                    self.publisher.publish(EnrollmentEvent("WAITLIST_SPOT_AVAILABLE", {"course_id": course_id, "student_id": student_id}))
 
 class AdvisorObserver(NotificationObserver):
     """Concrete observer for academic advisor notifications."""

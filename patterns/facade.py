@@ -72,17 +72,22 @@ class EnrollmentFacade:
         self.event_publisher.publish(EnrollmentEvent("ENROLLMENT_SUCCESS", {"student_id": studentId, "course_id": offeringId}))
         return EnrollmentResult.SUCCESS
 
+    def waitlist(self, studentId: str, offeringId: str):
+        """Facade method to add a student to the waitlist."""
+        print(f"Facade: Adding {studentId} to waitlist for {offeringId}...")
+        if studentId not in self.offering.waitlist:
+            self.offering.addToWaitlist(studentId)
+            self.event_publisher.publish(EnrollmentEvent("WAITLIST_JOINED", {"student_id": studentId, "course_id": offeringId}))
+        return EnrollmentResult.SUCCESS, "Added to waitlist."
+
     def drop(self, studentId: str, offeringId: str) -> DropResult:
         """Facade method to handle the course dropping workflow."""
         self.offering.releaseSeat()
         self.repository.delete(Enrollment(studentId, offeringId))
         self.schedule.removeEntry(ScheduleEntry(studentId, offeringId))
         
-        self.event_publisher.publish(EnrollmentEvent("COURSE_DROPPED", {"student_id": studentId, "course_id": offeringId}))
-        
-        # Waitlist handling
-        if self.offering.waitlist:
-            next_student = self.offering.waitlist.pop(0)
-            self.event_publisher.publish(EnrollmentEvent("WAITLIST_PROMOTED", {"student_id": next_student, "course_id": offeringId}))
+        # Include the waitlist in the payload so WaitlistObserver can handle it
+        current_waitlist = list(self.offering.waitlist) if self.offering.waitlist else []
+        self.event_publisher.publish(EnrollmentEvent("COURSE_DROPPED", {"student_id": studentId, "course_id": offeringId, "waitlist": current_waitlist}))
             
         return DropResult.SUCCESS

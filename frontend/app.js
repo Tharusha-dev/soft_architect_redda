@@ -484,13 +484,16 @@ function renderCourseGrid(coursesList) {
 
     coursesList.forEach(course => {
         const isEnrolled = db.student.enrolledCourses.includes(course.id);
+        const isWaitlisted = db.student.waitlistedCourses && db.student.waitlistedCourses.includes(course.id);
         const isFull = course.enrolled >= course.capacity;
 
         let actionBtn = `<button class="btn btn-primary" onclick="enrolCourse('${course.id}')">Enrol Now</button>`;
         if (isEnrolled) {
             actionBtn = `<button class="btn btn-danger" onclick="dropCourse('${course.id}')">Drop Course</button>`;
+        } else if (isWaitlisted) {
+            actionBtn = `<button class="btn btn-disabled" disabled>Waitlisted</button>`;
         } else if (isFull) {
-            actionBtn = `<button class="btn btn-disabled" disabled>Waitlist</button>`;
+            actionBtn = `<button class="btn btn-warning" onclick="waitlistCourse('${course.id}')">Add to Waitlist</button>`;
         }
 
         const capacityPercentage = (course.enrolled / course.capacity) * 100;
@@ -498,11 +501,12 @@ function renderCourseGrid(coursesList) {
         grid.innerHTML += `
             <div class="glass-card course-card">
                 <div class="course-header">
-                    <span class="course-code">${course.code}</span>
+                    <span class="course-code">${course.id}</span>
                     ${isEnrolled ? '<span class="status-badge status-success">Enrolled</span>' : ''}
                     ${!isEnrolled && isFull ? '<span class="status-badge status-warning">Full</span>' : ''}
                 </div>
-                <h3 class="course-title">${course.title}</h3>
+                <h3 class="course-title">${course.code}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4;">${course.title}</p>
                 <div class="course-meta">
                     <div class="meta-item"><i class="fa-solid fa-building"></i> ${course.department || 'N/A'}</div>
                     <div class="meta-item"><i class="fa-solid fa-user-tie"></i> ${course.instructor}</div>
@@ -593,6 +597,29 @@ async function dropCourse(courseId) {
         if (res.ok) {
             showToast(data.message, 'success');
             await fetchState(); // Sync state from python backend
+            renderStudentBrowse();
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (e) {
+        showToast('API Connection Error', 'error');
+    }
+}
+
+async function waitlistCourse(courseId) {
+    showToast('Joining waitlist...', 'warning');
+
+    try {
+        const res = await fetch('http://localhost:5000/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_id: db.student.id, course_id: courseId })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            showToast(data.message, 'success');
+            await fetchState();
             renderStudentBrowse();
         } else {
             showToast(data.message, 'error');
@@ -819,10 +846,11 @@ function renderInstructureClasses() {
         html += `
             <div class="glass-card course-card">
                 <div class="course-header">
-                    <span class="course-code">${course.code}</span>
+                    <span class="course-code">${course.id}</span>
                     <span class="status-badge status-success">Active</span>
                 </div>
-                <h3 class="course-title">${course.title}</h3>
+                <h3 class="course-title">${course.code}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4;">${course.title}</p>
                 <div class="course-meta">
                     <div class="meta-item"><i class="fa-solid fa-clock"></i> ${course.schedule}</div>
                     <div class="meta-item"><i class="fa-solid fa-users"></i> ${course.enrolled} Students Enrolled</div>
@@ -1426,8 +1454,103 @@ async function showNotifications() {
     if (!currentUser) return;
     const res = await fetch(`${API_URL}/notifications/${currentUser.id}`);
     const notifs = await res.json();
-    let msg = notifs.length ? notifs.map(n => `[${n.type}] ${JSON.stringify(n.payload)}`).join('\n') : "No notifications.";
-    await uiAlert(msg);
+    
+    let htmlContent = '';
+    
+    if (notifs.length === 0) {
+        htmlContent = '<div style="text-align: center; color: var(--text-muted); padding: 3rem 2rem;"><i class="fa-regular fa-bell-slash" style="font-size: 3rem; margin-bottom: 1rem; color: var(--border-color);"></i><br>No new notifications.</div>';
+    } else {
+        htmlContent = '<div style="display: flex; flex-direction: column; gap: 1rem;">';
+        notifs.forEach(n => {
+            let icon = 'fa-bell';
+            let color = 'var(--primary)';
+            let title = 'Notification';
+            let message = JSON.stringify(n.payload);
+            
+            if (n.type === 'WAITLIST_SPOT_AVAILABLE') {
+                icon = 'fa-exclamation-circle';
+                color = 'var(--accent)';
+                title = 'Spot Available!';
+                message = `Great news! A spot has opened up in <strong>${n.payload.course_id}</strong>. Enroll now before it's taken.`;
+            } else if (n.type === 'WAITLIST_JOINED') {
+                icon = 'fa-user-clock';
+                color = 'var(--warning)';
+                title = 'Waitlist Joined';
+                message = `You've been added to the waitlist for <strong>${n.payload.course_id}</strong>. We'll notify you if a spot opens.`;
+            } else if (n.type === 'ENROLLMENT_SUCCESS') {
+                icon = 'fa-check-circle';
+                color = 'var(--accent)';
+                title = 'Enrollment Successful';
+                message = `You are now enrolled in <strong>${n.payload.course_id}</strong>.`;
+            } else if (n.type === 'COURSE_DROPPED') {
+                icon = 'fa-minus-circle';
+                color = 'var(--danger)';
+                title = 'Course Dropped';
+                message = `You have successfully dropped <strong>${n.payload.course_id}</strong>.`;
+            } else if (n.type === 'GRADE_POSTED') {
+                icon = 'fa-graduation-cap';
+                color = 'var(--primary)';
+                title = 'Grade Posted';
+                message = `Your grade for <strong>${n.payload.course_id}</strong> has been updated.`;
+            }
+            
+            htmlContent += `
+                <div style="background: var(--bg-main); border-left: 4px solid ${color}; padding: 1rem; border-radius: 0.5rem; display: flex; gap: 1rem; align-items: start; box-shadow: var(--shadow-sm);">
+                    <div style="color: ${color}; font-size: 1.25rem; margin-top: 0.25rem;"><i class="fa-solid ${icon}"></i></div>
+                    <div style="flex: 1; text-align: left;">
+                        <h4 style="margin-bottom: 0.25rem; color: var(--text-main); font-size: 0.95rem;">${title}</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">${message}</p>
+                        <span style="font-size: 0.75rem; color: var(--text-light);"><i class="fa-regular fa-clock"></i> ${n.timestamp || 'Recently'}</span>
+                    </div>
+                </div>
+            `;
+        });
+        htmlContent += '</div>';
+    }
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);';
+    const box = document.createElement('div');
+    box.className = 'glass-card';
+    box.style.cssText = 'background:var(--bg-surface);padding:2rem;border-radius:1rem;min-width:400px;max-width:500px;box-shadow:0 20px 40px rgba(0,0,0,0.2);max-height:80vh;display:flex;flex-direction:column;';
+    
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;border-bottom:1px solid var(--border-color);padding-bottom:1rem;';
+    header.innerHTML = '<h3 style="margin:0;color:var(--secondary);font-size:1.25rem;"><i class="fa-regular fa-bell" style="color:var(--primary);"></i> Notifications</h3>';
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    closeBtn.style.cssText = 'background:none;border:none;font-size:1.25rem;color:var(--text-light);cursor:pointer;transition:color 0.2s;';
+    closeBtn.onmouseover = () => closeBtn.style.color = 'var(--danger)';
+    closeBtn.onmouseout = () => closeBtn.style.color = 'var(--text-light)';
+    closeBtn.onclick = () => overlay.remove();
+    header.appendChild(closeBtn);
+    
+    const contentArea = document.createElement('div');
+    contentArea.style.cssText = 'overflow-y:auto;padding-right:0.5rem;margin-bottom:1.5rem;flex:1;';
+    contentArea.innerHTML = htmlContent;
+    
+    box.appendChild(header);
+    box.appendChild(contentArea);
+    
+    if (notifs.length > 0) {
+        const footer = document.createElement('div');
+        footer.style.textAlign = 'center';
+        const clearBtn = document.createElement('button');
+        clearBtn.className = 'btn btn-outline';
+        clearBtn.style.width = '100%';
+        clearBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Dismiss All';
+        clearBtn.onclick = () => { overlay.remove(); };
+        footer.appendChild(clearBtn);
+        box.appendChild(footer);
+    }
+    
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.remove();
+    });
 }
 
 async function submitDescRequest() {
@@ -1735,7 +1858,19 @@ function renderAdminCoursesCRUD() {
                     </select>
                 </div>
                 <div class="form-group"><label class="form-label">Capacity</label><input type="number" id="add-ccap" class="form-control" placeholder="Capacity"></div>
-                <div class="form-group"><label class="form-label">Days</label><input type="text" id="add-cdays" class="form-control" placeholder="e.g. MO,WE"></div>
+                <div class="form-group">
+                    <label class="form-label">Days</label>
+                    <select id="add-cdays" class="form-control">
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Mon,Wed">Mon & Wed</option>
+                        <option value="Tue,Thu">Tue & Thu</option>
+                        <option value="Mon,Wed,Fri">Mon, Wed & Fri</option>
+                    </select>
+                </div>
                 <div class="form-group"><label class="form-label">Start Time</label><input type="time" id="add-cstart" class="form-control" placeholder="Start (HH:MM)"></div>
                 <div class="form-group"><label class="form-label">End Time</label><input type="time" id="add-cend" class="form-control" placeholder="End (HH:MM)"></div>
                 <div class="form-group" style="grid-column: span 2;"><label class="form-label">Prerequisites</label><input type="text" id="add-cprereq" class="form-control" placeholder="Prerequisites (comma-sep)"></div>

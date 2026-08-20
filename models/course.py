@@ -1,13 +1,19 @@
-
 import datetime
+import re
 
 def check_time_conflict(sched1: str, sched2: str) -> bool:
     if sched1 == sched2: return True
+    if sched1 == 'TBD' or sched2 == 'TBD': return False
     try:
         d1, t1 = sched1.split(' ', 1)
         d2, t2 = sched2.split(' ', 1)
-        if not set(d1.split('/')).intersection(set(d2.split('/'))):
+        
+        days1 = set(re.split(r'[/, ]+', d1))
+        days2 = set(re.split(r'[/, ]+', d2))
+        
+        if not days1.intersection(days2):
             return False
+            
         s1, e1 = t1.split('-')
         s2, e2 = t2.split('-')
         fmt = "%I:%M %p"
@@ -75,9 +81,18 @@ class Course:
         self.days = days
         self.start_time = start_time
         self.end_time = end_time
+        
+        if self.schedule == 'TBD' and self.days and self.start_time and self.end_time:
+            import datetime
+            try:
+                st = datetime.datetime.strptime(self.start_time, "%H:%M").strftime("%I:%M %p")
+                en = datetime.datetime.strptime(self.end_time, "%H:%M").strftime("%I:%M %p")
+                self.schedule = f"{self.days} {st} - {en}"
+            except:
+                pass
         self.prerequisites: List[str] = []
         import datetime
-        self.schedule_history = [{"effective_date": "1970-01-01T00:00:00Z", "schedule": schedule}]
+        self.schedule_history = [{"effective_date": "1970-01-01T00:00:00Z", "schedule": self.schedule}]
         
     def setSchedule(self, new_schedule: str):
         import datetime
